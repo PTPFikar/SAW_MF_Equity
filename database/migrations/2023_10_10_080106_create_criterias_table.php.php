@@ -13,11 +13,11 @@ return new class extends Migration
    */
   public function up()
   {
-    Schema::create('preventive_values', function (Blueprint $table) {
+    Schema::create('criterias', function (Blueprint $table) {
       $table->id();
-      $table->foreignId('criteria_analysis_id')->constrained()->cascadeOnDelete();
-      $table->foreignId('criteria_id')->constrained()->cascadeOnDelete();
-      $table->decimal('value', 10, 9);
+      $table->string('name')->unique();
+      $table->string('attribute');
+      $table->integer('weight'); 
       $table->timestamps();
     });
   }
@@ -29,6 +29,6 @@ return new class extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists('preventive_values');
+    Schema::dropIfExists('criterias');
   }
 };

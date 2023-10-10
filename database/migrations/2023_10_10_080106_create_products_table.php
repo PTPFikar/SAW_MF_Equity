@@ -13,11 +13,13 @@ return new class extends Migration
    */
   public function up()
   {
-    Schema::create('alternatives', function (Blueprint $table) {
+    Schema::create('products', function (Blueprint $table) {
       $table->id();
-      $table->foreignId('criteria_id')->constrained()->cascadeOnDelete();
-      $table->foreignId('tourism_object_id')->constrained()->cascadeOnDelete();
-      $table->decimal('alternative_value', 10, 1);
+      $table->string('ISIN')->unique();
+      $table->string('productName');
+      $table->decimal('sharpRatio', 10, 4);
+      $table->bigInteger('AUM');
+      $table->boolean('deviden');
       $table->timestamps();
     });
   }
@@ -29,6 +31,6 @@ return new class extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists('alternatives');
+    Schema::dropIfExists('tourism_objects');
   }
 };
