@@ -22,8 +22,7 @@
                <tr>
                <th scope="col">ISIN</th>
                <th scope="col">Product Name</th>
-               <th scope="col">Expect Return</th>
-               <th scope="col">Standard Deviation</th>
+               <th scope="col">Sharp Ratio</th>
                <th scope="col">AUM</th>
                <th scope="col">Deviden</th>
                </tr>
