@@ -47,7 +47,7 @@
                     <td>{{$product->productName}}</td>
                     <td>{{$product->sharpRatio}}</td>
                     <td>{{$product->AUM}}</td>
-                    <td>{{$product->deviden}}</td>
+                    <td>{{$product->deviden == 1 ? 'YES': 'NO'}}</td>
                 </tr>
             @endforeach
             
