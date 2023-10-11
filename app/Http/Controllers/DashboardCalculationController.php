@@ -5,10 +5,26 @@ namespace App\Http\Controllers;
 use App\Models\Products;
 use App\Models\Criteria;
 
-class DashboardCriteriaComparisonController extends Controller
+class DashboardCalculationController extends Controller
 {
-  public function calculateSAW()
+  public function index()
     {
+      $this->authorize('viewAny', Products::class);
+  
+      return view('dashboard.calculation.index', [
+        'title'     => 'Calculation',
+      ]);
+    }
+
+  public function calculateSAW(Products $request)
+    {
+        $this->authorize('viewAny', Products::class);
+
+        $selectedDate = $request->input('date');
+    
+        // Retrieve all products from the database based on the selected date
+        $products = Products::whereDate('created_at', $selectedDate)->get();
+
         // Ambil data bobot dari model Criteria
         $criteriaWeights = Criteria::pluck('weight')->toArray();
 

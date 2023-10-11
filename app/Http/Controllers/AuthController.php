@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\AuthSignInRequest;
-use App\Http\Requests\Auth\AuthSignUpRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -18,17 +16,6 @@ class AuthController extends Controller
     ];
 
     return view('auth.signin', $data);
-  }
-
-  public function store(AuthSignUpRequest $request)
-  {
-    $validate = $request->validated();
-
-    $validate['password'] = Hash::make($validate['password']);
-
-    User::create($validate);
-
-    return redirect('/')->with('success', 'Your account has been created!');
   }
 
   public function authenticate(AuthSignInRequest $request)

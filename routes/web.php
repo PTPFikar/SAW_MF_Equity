@@ -3,7 +3,7 @@
 use App\Http\Controllers\AdminCriteriaController;
 use App\Http\Controllers\AdminProductsController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardCriteriaComparisonController;
+use App\Http\Controllers\DashboardCalculationController;
 use App\Http\Controllers\DashboardProfileController;
 use App\Http\Controllers\DashboardUploadProductsController;
 use Illuminate\Support\Facades\Route;
