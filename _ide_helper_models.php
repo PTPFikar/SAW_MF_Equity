@@ -43,6 +43,7 @@ namespace App\Models{
  * @property string $sharpRatio
  * @property int $AUM
  * @property int $deviden
+ * @property string|null $date
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Products newModelQuery()
@@ -50,6 +51,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Products query()
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereAUM($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Products whereDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereDeviden($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereISIN($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereId($value)

@@ -15,5 +15,6 @@ class UploadProducts extends Model
         'standarDeviasi',
         'AUM',
         'deviden',
+        'date'
       ];
 }

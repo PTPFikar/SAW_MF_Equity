@@ -20,6 +20,7 @@ return new class extends Migration
       $table->decimal('sharpRatio', 10, 4);
       $table->bigInteger('AUM');
       $table->boolean('deviden');
+      $table->date('date');
       $table->timestamps();
     });
   }
@@ -31,6 +32,6 @@ return new class extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists('tourism_objects');
+    Schema::dropIfExists('products');
   }
 };

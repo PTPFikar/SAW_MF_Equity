@@ -19,9 +19,10 @@ class AdminProductsController extends Controller
     ]);
   }
 
-  public function edit(Products $products)
+  public function edit($id)
   {
     $this->authorize('update', Products::class);
+    $products = Products::select('*')->where('id', $id)->first();
 
     return view('dashboard.products.edit', [
       'title'  => "Edit $products->id",
@@ -47,11 +48,11 @@ class AdminProductsController extends Controller
       ->with('success', 'The selected Products object has been updated!');
   }
 
-  public function destroy(Products $products)
+  public function delete($id)
   {
     $this->authorize('delete', Products::class);
-
-    Products::destroy($products->id);
+    $products = Products::find($id);
+    $products->delete();
 
     return redirect('/dashboard/products')
       ->with('success', 'The selected Products object has been deleted!');

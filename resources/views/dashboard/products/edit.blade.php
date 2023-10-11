@@ -5,18 +5,18 @@
     <h1 class="h2">Update Data</h1>
   </div>
 
-  <form class="col-lg-8" method="POST" action="/dashboard/products/edit/{{ $object->id }}"  >
+  <form class="col-lg-8" method="POST" action="/dashboard/products/edit/{{ $object->id }}">
     @method('POST')
     @csrf
 
     <div class="mb-3">
       <label for="ISIN" class="form-label">ISIN</label>
-      <input type="text" class="form-control" id="ISIN" name="ISIN" value="{{ ($object->ISIN) }}" readonly>
+      <input type="text" class="form-control" id="ISIN" name="ISIN" value="{{ ($object->ISIN) }}" required>
     </div>
 
     <div class="mb-3">
       <label for="name" class="form-label">Product Name</label>
-      <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $object->productName) }}">
+      <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $object->productName) }}" required>
     </div>
 
     <div class="mb-3">

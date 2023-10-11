@@ -15,7 +15,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link {{ Request::is('dashboard/calculation*') ? 'active' : '' }}" href="/dashboard/calculation">
-          <span data-feather="columns"></span>
+          <span data-feather="clipboard"></span>
           Calculation
         </a>
       </li>

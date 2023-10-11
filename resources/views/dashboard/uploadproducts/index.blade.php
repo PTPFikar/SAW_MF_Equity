@@ -10,26 +10,24 @@
             {{ session('success') }}
         </div>
     @endif
-  <div class="row">
-      <div class="d-flex my-2">
-          {{-- <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
-           + Upload File
-           </button> --}}
 
-        <form  method="POST" action="{{ route('upload_csv') }}" enctype="multipart/form-data">
-            @csrf
-            <div class="input-group mb-3">
-                <input type="file" name="file" class="form-control">
-                <button class="btn btn-primary" type="submit">Submit</button>
-            </div>
-        </form>
-      </div>
+        <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+         + Upload File
+         </button>
+         <a href="{{ asset('assets/example/Data_Product.csv') }}" download>
+            <button type="submit" class="btn btn-warning mb-3">
+            Download Sample
+            </button>
+         </a>
+
+  <div class="row">     
       @if (session('success'))
            <div class="alert alert-success alert-dismissible fade show" role="alert">
            {{ session('success') }}
            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
            </div>
       @endif
+      
        <table class="table">
            <thead>
                <tr>
@@ -38,6 +36,7 @@
                <th scope="col">Sharp Ratio</th>
                <th scope="col">AUM</th>
                <th scope="col">Deviden</th>
+               <th scope="col">Date</th>
                </tr>
            </thead>
            <tbody>
@@ -48,12 +47,12 @@
                     <td>{{$product->sharpRatio}}</td>
                     <td>{{$product->AUM}}</td>
                     <td>{{$product->deviden == 1 ? 'YES': 'NO'}}</td>
+                    <td>{{$product->date}}</td>
                 </tr>
             @endforeach
-            
            </tbody>
        </table>
-       
+       {{ $products->links() }}
   </div>
 </div>
 

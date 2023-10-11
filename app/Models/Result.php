@@ -10,10 +10,14 @@ class Result extends Model
   use HasFactory;
 
   protected $fillable = [
+    'id',
+    'ISIN',
+    'productName',
     'criteria_first_value',
     'criteria_second_value',
     'criteria_third_value',
     'criteria_result',
     'criteria_rank',
+    'date'
   ];
 }

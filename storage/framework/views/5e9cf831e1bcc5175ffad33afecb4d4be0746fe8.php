@@ -5,18 +5,18 @@
     <h1 class="h2">Update Data</h1>
   </div>
 
-  <form class="col-lg-8" method="POST" action="/dashboard/products/edit/<?php echo e($object->id); ?>"  >
+  <form class="col-lg-8" method="POST" action="/dashboard/products/edit/<?php echo e($object->id); ?>">
     <?php echo method_field('POST'); ?>
     <?php echo csrf_field(); ?>
 
     <div class="mb-3">
       <label for="ISIN" class="form-label">ISIN</label>
-      <input type="text" class="form-control" id="ISIN" name="ISIN" value="<?php echo e(($object->ISIN)); ?>" readonly>
+      <input type="text" class="form-control" id="ISIN" name="ISIN" value="<?php echo e(($object->ISIN)); ?>" required>
     </div>
 
     <div class="mb-3">
       <label for="name" class="form-label">Product Name</label>
-      <input type="text" class="form-control" id="name" name="name" value="<?php echo e(old('name', $object->productName)); ?>">
+      <input type="text" class="form-control" id="name" name="name" value="<?php echo e(old('name', $object->productName)); ?>" required>
     </div>
 
     <div class="mb-3">
