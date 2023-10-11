@@ -5,11 +5,24 @@
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Upload Products</h1>
   </div>
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
   <div class="row">
       <div class="d-flex my-2">
-          <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          {{-- <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
            + Upload File
-           </button>
+           </button> --}}
+
+        <form  method="POST" action="{{ route('upload_csv') }}" enctype="multipart/form-data">
+            @csrf
+            <div class="input-group mb-3">
+                <input type="file" name="file" class="form-control">
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+        </form>
       </div>
       @if (session('success'))
            <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -27,8 +40,20 @@
                <th scope="col">Deviden</th>
                </tr>
            </thead>
-
+           <tbody>
+            @foreach ($products as $product)
+                <tr>
+                    <td>{{$product->ISIN}}</td>
+                    <td>{{$product->productName}}</td>
+                    <td>{{$product->sharpRatio}}</td>
+                    <td>{{$product->AUM}}</td>
+                    <td>{{$product->deviden}}</td>
+                </tr>
+            @endforeach
+            
+           </tbody>
        </table>
+       
   </div>
 </div>
 
@@ -41,7 +66,7 @@
            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
        </div>
        <div class="modal-body">
-           <form action="import" method="POST" enctype="multipart/form-data">
+           <form action="{{ route('upload_csv') }}" method="POST" enctype="multipart/form-data">
                @csrf
                <div class="input-group mb-3">
                    <input type="file" name="file" class="form-control">

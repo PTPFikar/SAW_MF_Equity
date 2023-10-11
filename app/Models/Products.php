@@ -12,7 +12,7 @@ class Products extends Model
   protected $fillable = [
     'id',
     'ISIN',
-    'productsName',
+    'productName',
     'sharpRatio',
     'AUM',
     'deviden'

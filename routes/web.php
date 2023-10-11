@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
   Route::post('dashboard/calculation', [DashboardCalculationController::class, 'store']);
 
   Route::get('dashboard/upload-products', [DashboardUploadProductsController::class,'index']);
-  Route::post('dashboard/upload-products', [DashboardUploadProductsController::class,'upload_csv_file'])->name('upload');
+  Route::post('dashboard/upload-products', [DashboardUploadProductsController::class,'upload_csv_file'])->name('upload_csv');
   
   Route::get('dashboard/products', [AdminProductsController::class, 'index']);
   Route::get('dashboard/products/edit/{id}', [AdminProductsController::class, 'edit']);
