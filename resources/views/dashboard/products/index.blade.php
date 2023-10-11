@@ -29,11 +29,11 @@
               <td class="text-center">{{ $object->AUM }}</td>
               <td class="text-center">{{ $object->deviden }}</td>
               <td class="text-center">
-                <a href="/dashboard/products/edit/{{ $object->id }}" class="text-decoration-none text-success">
+                <a href="{{route('product.edit', $object->id)}}" class="text-decoration-none text-success">
                   <span data-feather="edit"></span>
                 </a>
-                <form action="/dashboard/products/{{ $object->id }}" method="POST" class="d-inline">
-                  @method('delete')
+                <form action="{{route('product.delete', $object->id)}}" method="POST" class="d-inline">
+                  @method('DELETE')
                   @csrf
 
                   <span role="button" class="text-decoration-none text-danger btnDelete" data-object="products">

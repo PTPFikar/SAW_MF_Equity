@@ -43,9 +43,9 @@ Route::middleware('auth')->group(function () {
   Route::post('dashboard/upload-products', [DashboardUploadProductsController::class,'upload_csv_file'])->name('upload_csv');
  
   Route::get('dashboard/products', [AdminProductsController::class, 'index']);
-  Route::get('dashboard/products/edit/{id}', [AdminProductsController::class, 'edit']);
-  Route::post('dashboard/products/update/{id}', [AdminProductsController::class, 'update']);
-  Route::get('dashboard/products/delete/{id}', [AdminProductsController::class, 'delete']);
+  Route::get('dashboard/products/edit/{id}', [AdminProductsController::class, 'edit'])->name('product.edit');
+  Route::put('dashboard/products/update/{id}', [AdminProductsController::class, 'update'])->name('product.update');
+  Route::delete('dashboard/products/{id}', [AdminProductsController::class, 'destroy'])->name('product.delete');
 
   Route::resources([
     'dashboard/criterias'     => AdminCriteriaController::class

@@ -19,7 +19,7 @@ class AdminProductsController extends Controller
     ]);
   }
 
-  public function edit($id)
+  public function edit(Request $request, $id)
   {
     $this->authorize('update', Products::class);
     $products = Products::select('*')->where('id', $id)->first();
@@ -30,8 +30,9 @@ class AdminProductsController extends Controller
     ]);
   }
 
-  public function update($id, Request $request)
+  public function update(Request $request, $id)
   {
+    // dd($id);
     $this->validate($request,[
       'sharpRatio'  => 'required',
       'AUM'         => 'required',
@@ -48,8 +49,9 @@ class AdminProductsController extends Controller
       ->with('success', 'The selected Products object has been updated!');
   }
 
-  public function delete($id)
+  public function destroy($id)
   {
+    // dd($id);
     $this->authorize('delete', Products::class);
     $products = Products::find($id);
     $products->delete();

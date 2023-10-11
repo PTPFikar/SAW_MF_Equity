@@ -5,8 +5,8 @@
     <h1 class="h2">Update Data</h1>
   </div>
 
-  <form class="col-lg-8" method="POST" action="/dashboard/products/edit/{{ $object->id }}">
-    @method('POST')
+  <form class="col-lg-8" method="POST" action="{{ route('product.update', $object->id) }}">
+    @method('PUT')
     @csrf
 
     <div class="mb-3">
