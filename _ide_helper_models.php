@@ -35,49 +35,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\CriteriaAnalysis
- *
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CriteriaAnalysisDetail> $details
- * @property-read int|null $details_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PreventiveValue> $preventiveValues
- * @property-read int|null $preventive_values_count
- * @property-read \App\Models\User|null $user
- * @method static \Illuminate\Database\Eloquent\Builder|CriteriaAnalysis newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|CriteriaAnalysis newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|CriteriaAnalysis query()
- */
-	class CriteriaAnalysis extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\CriteriaAnalysisDetail
- *
- * @property-read \App\Models\CriteriaAnalysis|null $criteriaAnalysis
- * @property-read \App\Models\Criteria|null $firstCriteria
- * @property-read \App\Models\Criteria|null $secondCriteria
- * @method static \Illuminate\Database\Eloquent\Builder|CriteriaAnalysisDetail newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|CriteriaAnalysisDetail newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|CriteriaAnalysisDetail query()
- */
-	class CriteriaAnalysisDetail extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\PreventiveValue
- *
- * @property-read \App\Models\Criteria|null $criteria
- * @property-read \App\Models\CriteriaAnalysis|null $criteriaAnalysis
- * @method static \Illuminate\Database\Eloquent\Builder|PreventiveValue newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PreventiveValue newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PreventiveValue query()
- */
-	class PreventiveValue extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
  * App\Models\Products
  *
  * @property int $id
@@ -101,6 +58,17 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereUpdatedAt($value)
  */
 	class Products extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Result
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|Result newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Result newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Result query()
+ */
+	class Result extends \Eloquent {}
 }
 
 namespace App\Models{

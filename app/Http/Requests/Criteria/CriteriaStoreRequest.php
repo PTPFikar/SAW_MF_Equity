@@ -26,6 +26,7 @@ class CriteriaStoreRequest extends FormRequest
     return [
       'name'      => 'required|max:30|unique:criterias',
       'attribute' => 'required',
+      'weight'    => 'required',
     ];
   }
 }
