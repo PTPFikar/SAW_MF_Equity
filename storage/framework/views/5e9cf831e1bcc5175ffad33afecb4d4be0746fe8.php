@@ -5,8 +5,8 @@
     <h1 class="h2">Update Data</h1>
   </div>
 
-  <form class="col-lg-8" method="POST" action="/dashboard/products/edit/<?php echo e($object->id); ?>">
-    <?php echo method_field('POST'); ?>
+  <form class="col-lg-8" method="POST" action="<?php echo e(route('product.update', $object->id)); ?>">
+    <?php echo method_field('PUT'); ?>
     <?php echo csrf_field(); ?>
 
     <div class="mb-3">

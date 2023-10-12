@@ -15,11 +15,11 @@ class AdminProductsController extends Controller
 
     return view('dashboard.products.index', [
       'title' => 'Products',
-      'objects' => Products::all()
+      'objects' => Products::orderBy('date', 'asc')->orderBy('productName', 'asc')->paginate(10)
     ]);
   }
 
-  public function edit(Request $request, $id)
+  public function edit($id)
   {
     $this->authorize('update', Products::class);
     $products = Products::select('*')->where('id', $id)->first();

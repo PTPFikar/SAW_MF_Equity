@@ -15,6 +15,7 @@
           <th scope="col" class="text-center">Sharp Ratio</th>
           <th scope="col" class="text-center">AUM</th>
           <th scope="col" class="text-center">Deviden</th>
+          <th scope="col" class="text-center">Date</th>
         </tr>
       </thead>
       <tbody>
@@ -28,6 +29,7 @@
               <td class="text-center">{{ $object->sharpRatio }}</td>
               <td class="text-center">{{ $object->AUM }}</td>
               <td class="text-center">{{ $object->deviden }}</td>
+              <td class="text-center">{{ $object->date }}</td>
               <td class="text-center">
                 <a href="{{route('product.edit', $object->id)}}" class="text-decoration-none text-success">
                   <span data-feather="edit"></span>

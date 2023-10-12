@@ -2,71 +2,85 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\Criteria;
+use App\Models\Result;
+use Illuminate\Support\Facades\DB;
 
 class DashboardCalculationController extends Controller
 {
-  public function index()
+    public function index()
     {
-      $this->authorize('viewAny', Products::class);
-  
-      return view('dashboard.calculation.index', [
-        'title'     => 'Calculation',
-      ]);
+        return view('dashboard.calculation.index', [
+            'title' => 'Calculation',
+        ]);
     }
 
-  public function calculateSAW(Products $request)
+    public function calculateSAW(Request $request)
     {
-        $this->authorize('viewAny', Products::class);
+        // Validasi input tanggal
+        $request->validate([
+            'date' => 'required|date|exists:products,date',
+        ]);
 
+        // Ambil tanggal yang dipilih dari request
         $selectedDate = $request->input('date');
-    
-        // Retrieve all products from the database based on the selected date
-        $products = Products::whereDate('created_at', $selectedDate)->get();
 
         // Ambil data bobot dari model Criteria
-        $criteriaWeights = Criteria::pluck('weight')->toArray();
+        $criteriaWeights = Criteria::pluck('weight', 'id');
 
-        // Ambil data nama kriteria dari model Criteria
-        $criteriaNames = Criteria::pluck('name')->toArray();
+        // Retrieve all products from the database based on the selected date
+        $products = Products::whereDate('date', $selectedDate)->get();
 
-        // Retrieve all products from the database
-        $products = Products::all();
+        // Find the maximum or minimum value of C based on attribute type (BENEFIT or COST)
+        $maxValues = [];
+        $minValues = [];
 
-        $results = [];
+        foreach ($criteriaWeights as $criteriaId => $weight) {
+            $criteriaName = Criteria::find($criteriaId)->criteriaName;
+            $values = [];
 
+            foreach ($products as $product) {
+                $values[] = $product->$criteriaName;
+            }
+
+            if (Criteria::find($criteriaId)->Attribute == 'BENEFIT') {
+                $maxValues[$criteriaName] = max($values);
+            } elseif (Criteria::find($criteriaId)->Attribute == 'COST') {
+                $minValues[$criteriaName] = min($values);
+            }
+        }
+
+        // Calculate the final score for each product
         foreach ($products as $product) {
             $score = 0;
 
-            // Calculate the SAW score for each product
-            for ($i = 0; $i < count($criteriaNames); $i++) {
-                $criteriaName = $criteriaNames[$i];
-                $weight = $criteriaWeights[$i];
+            foreach ($criteriaWeights as $criteriaId => $weight) {
+                $criteriaName = Criteria::find($criteriaId)->criteriaName;
                 $value = $product->$criteriaName;
 
-                // Adjust the deviden value if necessary
-                if ($criteriaName === 'deviden' && $value === 'YES') {
-                    $value = 1;
-                } elseif ($criteriaName === 'deviden' && $value === 'NO') {
-                    $value = 0;
+                if (Criteria::find($criteriaId)->Attribute == 'BENEFIT') {
+                    $score += ($value / $maxValues[$criteriaName]) * $weight;
+                } elseif (Criteria::find($criteriaId)->Attribute == 'COST') {
+                    $score += ($minValues[$criteriaName] / $value) * $weight;
                 }
-
-                $score += $weight * $value;
             }
 
             // Store the result for this product
             $results[] = [
-                'product' => $product->name,
-                'score' => $score,
+                'ISIN' => $product->ISIN,
+                'productName' => $product->productName,
+                'C1' => $product->sharpRatio,
+                'C2' => $product->AUM,
+                'C3' => ($product->deviden == 'YES' ? 1 : 0),
+                'result' => $score,
             ];
         }
 
-        // Sort the results by score in descending order
+        // Sort the results by 'result' in descending order
         usort($results, function ($a, $b) {
-            return $b['score'] - $a['score'];
+            return $b['result'] - $a['result'];
         });
-
-        return view('saw.result', ['results' => $results]);
-    }
+      }
 }

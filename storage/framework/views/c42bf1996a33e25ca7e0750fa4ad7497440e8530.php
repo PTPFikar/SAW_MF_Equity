@@ -15,6 +15,7 @@
           <th scope="col" class="text-center">Sharp Ratio</th>
           <th scope="col" class="text-center">AUM</th>
           <th scope="col" class="text-center">Deviden</th>
+          <th scope="col" class="text-center">Date</th>
         </tr>
       </thead>
       <tbody>
@@ -28,12 +29,13 @@
               <td class="text-center"><?php echo e($object->sharpRatio); ?></td>
               <td class="text-center"><?php echo e($object->AUM); ?></td>
               <td class="text-center"><?php echo e($object->deviden); ?></td>
+              <td class="text-center"><?php echo e($object->date); ?></td>
               <td class="text-center">
-                <a href="/dashboard/products/edit/<?php echo e($object->id); ?>" class="text-decoration-none text-success">
+                <a href="<?php echo e(route('product.edit', $object->id)); ?>" class="text-decoration-none text-success">
                   <span data-feather="edit"></span>
                 </a>
-                <form action="/dashboard/products/<?php echo e($object->id); ?>" method="POST" class="d-inline">
-                  <?php echo method_field('delete'); ?>
+                <form action="<?php echo e(route('product.delete', $object->id)); ?>" method="POST" class="d-inline">
+                  <?php echo method_field('DELETE'); ?>
                   <?php echo csrf_field(); ?>
 
                   <span role="button" class="text-decoration-none text-danger btnDelete" data-object="products">

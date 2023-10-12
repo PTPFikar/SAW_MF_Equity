@@ -36,8 +36,8 @@ Route::middleware('auth')->group(function () {
   Route::get('dashboard/profile', [DashboardProfileController::class, 'index']);
   Route::put('dashboard/profile/{user}', [DashboardProfileController::class, 'update']);
 
-  Route::get('dashboard/calculation', [DashboardCalculationController::class, 'index']);
-  Route::post('dashboard/calculation', [DashboardCalculationController::class, 'store']);
+  Route::get('dashboard/calculation', [DashboardCalculationController::class, 'index'])->name('dashboard.calculation');
+  Route::post('dashboard/calculation', [DashboardCalculationController::class, 'calculateSAW'])->name('calculateSAW');
 
   Route::get('dashboard/upload-products', [DashboardUploadProductsController::class,'index']);
   Route::post('dashboard/upload-products', [DashboardUploadProductsController::class,'upload_csv_file'])->name('upload_csv');
