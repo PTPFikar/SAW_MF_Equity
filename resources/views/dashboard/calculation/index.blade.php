@@ -8,7 +8,8 @@
         @csrf
         <div class="table-responsive col-lg-2">
             <label for="date" class="form-label">Select Date</label>
-            <input type="date" class="form-control" id="date" name="date" required>
+            <input type="date" class="form-control" id="date" name="date" required
+            value="{{ $date ?? '' }}">
         </div>
         <button type="submit" class="btn btn-primary mb-3 lg-2">
             <span data-feather="check-square"></span>
