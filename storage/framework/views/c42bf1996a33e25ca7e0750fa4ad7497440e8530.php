@@ -54,6 +54,8 @@
         <?php endif; ?>
       </tbody>
     </table>
+    <?php echo e($objects->links()); ?>
+
   </div>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\MyFiles\Kuliah\Skripsi\Aplication\SPK-SAW\resources\views/dashboard/products/index.blade.php ENDPATH**/ ?>

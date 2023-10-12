@@ -54,5 +54,6 @@
         @endif
       </tbody>
     </table>
+    {{ $objects->links() }}
   </div>
 @endsection

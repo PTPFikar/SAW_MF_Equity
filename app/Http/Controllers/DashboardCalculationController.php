@@ -52,6 +52,7 @@ class DashboardCalculationController extends Controller
             }
         }
 
+
         // Calculate the final score for each product
         foreach ($products as $product) {
             $score = 0;
@@ -67,6 +68,13 @@ class DashboardCalculationController extends Controller
                 }
             }
 
+            $rank = 1;
+            foreach ($products as $product) {
+                $results['rank'] = $rank;
+                $results[] = $results;
+                $rank++;
+}
+
             // Store the result for this product
             $results[] = [
                 'ISIN' => $product->ISIN,
@@ -75,6 +83,7 @@ class DashboardCalculationController extends Controller
                 'C2' => $product->AUM,
                 'C3' => ($product->deviden == 'YES' ? 1 : 0),
                 'result' => $score,
+                'rank' => $rank
             ];
         }
 
@@ -82,5 +91,11 @@ class DashboardCalculationController extends Controller
         usort($results, function ($a, $b) {
             return $b['result'] - $a['result'];
         });
+
+         // Pass the results to the INDEX view
+        return view('dashboard.calculation.index', [
+            'title' => 'Calculation',
+            'results' => $results, // Add this line to pass the results to the view
+        ]);
       }
 }
