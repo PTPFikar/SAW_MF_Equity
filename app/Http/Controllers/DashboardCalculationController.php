@@ -19,80 +19,74 @@ class DashboardCalculationController extends Controller
 
     public function calculateSAW(Request $request)
     {
-        // Validasi input tanggal
-        $request->validate([
-            'date' => 'required|date|exists:products,date',
-        ]);
+         // Mengambil data produk (alternatif) dari model Product
+         $alternatives = Products::all();
 
-        // Ambil tanggal yang dipilih dari request
-        $selectedDate = $request->input('date');
-
-        // Ambil data bobot dari model Criteria
-        $criteriaWeights = Criteria::pluck('weight', 'id');
-
-        // Retrieve all products from the database based on the selected date
-        $products = Products::whereDate('date', $selectedDate)->get();
-
-        // Find the maximum or minimum value of C based on attribute type (BENEFIT or COST)
-        $maxValues = [];
-        $minValues = [];
-
-        foreach ($criteriaWeights as $criteriaId => $weight) {
-            $criteriaName = Criteria::find($criteriaId)->criteriaName;
-            $values = [];
-
-            foreach ($products as $product) {
-                $values[] = $product->$criteriaName;
-            }
-
-            if (Criteria::find($criteriaId)->Attribute == 'BENEFIT') {
-                $maxValues[$criteriaName] = max($values);
-            } elseif (Criteria::find($criteriaId)->Attribute == 'COST') {
-                $minValues[$criteriaName] = min($values);
-            }
-        }
-
-
-        // Calculate the final score for each product
-        foreach ($products as $product) {
-            $score = 0;
-
-            foreach ($criteriaWeights as $criteriaId => $weight) {
-                $criteriaName = Criteria::find($criteriaId)->criteriaName;
-                $value = $product->$criteriaName;
-
-                if (Criteria::find($criteriaId)->Attribute == 'BENEFIT') {
-                    $score += ($value / $maxValues[$criteriaName]) * $weight;
-                } elseif (Criteria::find($criteriaId)->Attribute == 'COST') {
-                    $score += ($minValues[$criteriaName] / $value) * $weight;
-                }
-            }
-
-            $rank = 1;
-            foreach ($products as $product) {
-                $results['rank'] = $rank;
-                $results[] = $results;
-                $rank++;
-}
-
-            // Store the result for this product
-            $results[] = [
-                'ISIN' => $product->ISIN,
-                'productName' => $product->productName,
-                'C1' => $product->sharpRatio,
-                'C2' => $product->AUM,
-                'C3' => ($product->deviden == 'YES' ? 1 : 0),
-                'result' => $score,
-                'rank' => $rank
-            ];
-        }
-
-        // Sort the results by 'result' in descending order
-        usort($results, function ($a, $b) {
-            return $b['result'] - $a['result'];
-        });
-
-         // Pass the results to the INDEX view
+         // Mengambil data kriteria dari model Criteria
+         $criterias = Criteria::all();
+ 
+         // Maksimum nilai untuk tiap kriteria
+         $maxValues = [];
+ 
+         foreach ($criterias as $criteria) {
+             $maxValues[$criteria->name] = $alternatives->max($criteria->name);
+         }
+ 
+         // Hitung nilai preferensi
+         $preferences = [];
+ 
+         foreach ($alternatives as $alternative) {
+             $preferenceValue = 0;
+ 
+             // Hitung 'C1', 'C2', dan 'C3' berdasarkan kriteria dan alternatif
+             $c1 = $alternative->sharpRatio;
+             $c2 = $alternative->AUM;
+             $c3 = $alternative->deviden;
+ 
+             foreach ($criterias as $criteria) {
+                 if ($maxValues[$criteria->name] != 0) {
+                     $preferenceValue += $criteria->weight * ($alternative->{$criteria->name} / $maxValues[$criteria->name]);
+                 } else {
+                     $preferenceValue = 0;
+                     break;
+                 }
+             }
+ 
+             $preferences[$alternative->id] = [
+                 'C1' => $c1,
+                 'C2' => $c2,
+                 'C3' => $c3,
+                 'ResultTotal' => $preferenceValue,
+             ];
+         }
+ 
+         // Urutkan alternatif berdasarkan nilai preferensi (peringkat)
+         $alternatives = $alternatives->map(function ($alternative) use ($preferences) {
+             $alternative->c1 = $preferences[$alternative->id]['C1'];
+             $alternative->c2 = $preferences[$alternative->id]['C2'];
+             $alternative->c3 = $preferences[$alternative->id]['C3'];
+             $alternative->preferenceValue = $preferences[$alternative->id]['ResultTotal'];
+             return $alternative;
+         })->sortByDesc('preferenceValue');
+ 
+         // Hitung rank dan simpan hasil perhitungan ke dalam array
+         $results = [];
+         $rank = 1;
+ 
+         foreach ($alternatives as $alternative) {
+             $results[] = [
+                 'ID' => $alternative->id,
+                 'ISIN' => $alternative->ISIN,
+                 'productName' => $alternative->productName,
+                 'C1' => $alternative->c1,
+                 'C2' => $alternative->c2,
+                 'C3' => $alternative->c3,
+                 'Result' => $alternative->preferenceValue,
+                 'Rank' => $rank,
+             ];
+ 
+             $rank++;
+         }
         return view('dashboard.calculation.index', [
             'title' => 'Calculation',
             'results' => $results, // Add this line to pass the results to the view

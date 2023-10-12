@@ -38,7 +38,7 @@
                     <td>{{ $result['C1'] }}</td>
                     <td>{{ $result['C2'] }}</td>
                     <td>{{ $result['C3'] }}</td>
-                    <td>{{ $result['result'] }}</td>
+                    <td>{{ $result['Result'] }}</td>
                     <td>{{ $result['Rank'] }}</td>
                 </tr>
                 @endforeach
