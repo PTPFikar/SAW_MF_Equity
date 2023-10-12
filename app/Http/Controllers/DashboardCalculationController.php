@@ -31,7 +31,7 @@ class DashboardCalculationController extends Controller
          foreach ($criterias as $criteria) {
              $maxValues[$criteria->name] = $alternatives->max($criteria->name);
          }
- 
+        //  dd($maxValues);
          // Hitung nilai preferensi
          $preferences = [];
  
@@ -51,15 +51,16 @@ class DashboardCalculationController extends Controller
                      break;
                  }
              }
- 
+
              $preferences[$alternative->id] = [
                  'C1' => $c1,
                  'C2' => $c2,
                  'C3' => $c3,
                  'ResultTotal' => $preferenceValue,
              ];
+
          }
- 
+//  dd($preferences);
          // Urutkan alternatif berdasarkan nilai preferensi (peringkat)
          $alternatives = $alternatives->map(function ($alternative) use ($preferences) {
              $alternative->c1 = $preferences[$alternative->id]['C1'];
