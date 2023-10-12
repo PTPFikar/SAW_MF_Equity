@@ -33,31 +33,46 @@ class DashboardUploadProductsController extends Controller
         foreach ($csv as $row) {
             $isin = $row['ISIN'];
             $productName = $row['Product Name'];
-            $expectReturn = $row['Expect Return 1 Year'];
-            $standarDeviasi = $row['Standar Deviasi'];
-            $aum = $row['Asset Under Management (AUM)'];
+            $expectReturn = floatval($row['Expect Return 1 Year']);
+            $standarDeviasi = floatval($row['Standar Deviasi']);
+            $aum = floatval($row['Asset Under Management (AUM)']);
             $dividend = $row['Deviden'];
             $date = $row['Date'];
-    
+            // dd($expectReturn);
+
             // Cari data produk berdasarkan "isin" atau "productName"
             $product = Products::where('isin', $isin)->orWhere('productName', $productName)->first();
             if (!$product) {
                 // Jika produk belum ada, buat entri baru
+
                 $product = new Products();
                 $product->ISIN = $isin;
                 $product->productName = $productName;
-                $product->sharpRatio = $expectReturn / $standarDeviasi;
+                if ($standarDeviasi != 0) {
+                    $product->sharpRatio = $expectReturn / $standarDeviasi;
+                } else {
+                    $product->sharpRatio = 0;
+                }
                 $product->AUM = $aum;
                 $product->deviden = ($dividend === 'YES') ? 1 : 0; // Konversi "YES" menjadi "YES" atau "NO"
-                $product->date = $date;
+                if (!empty($date)) {
+                    $product->date = $date;
+                }
                 $product->save();
             } else {
                 // Jika produk sudah ada, update nilainya
+                // dd($standarDeviasi);
 
-                $product->sharpRatio = $expectReturn / $standarDeviasi;
+                if ($standarDeviasi != 0) {
+                    $product->sharpRatio = $expectReturn / $standarDeviasi;
+                } else {
+                    $product->sharpRatio = 0;
+                }
                 $product->AUM = $aum;
                 $product->deviden = ($dividend === 'YES') ? 1 : 0;
-                $product->date = $date;
+                if (!empty($date)) {
+                    $product->date = $date;
+                }
                 $product->save();
             }
 
