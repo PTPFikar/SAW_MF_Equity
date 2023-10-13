@@ -21,10 +21,10 @@ class DashboardCalculationController extends Controller
 
     public function calculateSAW(Request $request)
     {
-         // Mengambil data produk (alternatif) dari model Product
-         $input = $request->all();
-         $date = $input['date'];
-         $alternatives = Products::where('date', $date)->get();
+        // Mengambil data produk (alternatif) dari model Product
+        $input = $request->all();
+        $date = $input['date'];
+        $alternatives = Products::where('date', $date)->get();
 
         // Mengambil data kriteria dari model Criteria
         $criterias = Criteria::all();
@@ -48,11 +48,6 @@ class DashboardCalculationController extends Controller
         foreach ($alternatives as $alternative) {
             $preferenceValue = 0;
 
-            // Hitung 'C1', 'C2', dan 'C3' berdasarkan kriteria dan alternatif
-            $c1 = $alternative->sharpRatio;
-            $c2 = $alternative->AUM;
-            $c3 = $alternative->deviden;
-            
             foreach ($criterias as $criteria) {
                 if ($maxValues[$criteria->name] != 0) {
                     // Jika atribut adalah COST, gunakan min() untuk mencari nilai terendah
@@ -69,13 +64,14 @@ class DashboardCalculationController extends Controller
             }
 
             $preferences[$alternative->id] = [
-                'C1' => $c1,
-                'C2' => $c2,
-                'C3' => $c3,
+                'C1' => ($alternative->sharpRatio / $maxValues['sharpRatio']) * $criterias->where('name', 'sharpRatio')->first()->weight,
+                'C2' => ($alternative->AUM / $maxValues['AUM']) * $criterias->where('name', 'AUM')->first()->weight,
+                'C3' => ($alternative->deviden / $maxValues['deviden']) * $criterias->where('name', 'deviden')->first()->weight,
                 'ResultTotal' => $preferenceValue,
             ];
         }
 
+        // Urutkan alternatif berdasarkan nilai preferensi (peringkat)
         $alternatives = $alternatives->map(function ($alternative) use ($preferences) {
             $alternative->c1 = $preferences[$alternative->id]['C1'];
             $alternative->c2 = $preferences[$alternative->id]['C2'];
@@ -84,6 +80,7 @@ class DashboardCalculationController extends Controller
             return $alternative;
         })->sortByDesc('preferenceValue');
 
+        // Hitung rank dan simpan hasil perhitungan ke dalam array
         $results = [];
         $rank = 1;
 
@@ -106,8 +103,8 @@ class DashboardCalculationController extends Controller
             'results' => $results,
             'date' => $date
         ]);
-      }
-
+    }
+    
       public function export_excel()
       {
           return Excel::download(new ResultExport, 'result.xlsx');

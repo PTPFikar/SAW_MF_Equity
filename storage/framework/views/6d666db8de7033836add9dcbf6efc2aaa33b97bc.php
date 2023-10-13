@@ -32,13 +32,13 @@
             <tbody>
                 <?php $__currentLoopData = $results; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $result): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
-                    <td><?php echo e($result['ISIN']); ?></td>
+                    <td class="text-center"><?php echo e($result['ISIN']); ?></td>
                     <td><?php echo e($result['productName']); ?></td>
-                    <td><?php echo e(number_format($result['C1'], 4)); ?></td>
-                    <td><?php echo e(number_format($result['C2'], 2)); ?></td>
-                    <td><?php echo e(number_format($result['C3'], 2)); ?></td>
-                    <td><?php echo e(number_format($result['Result'], 4)); ?></td>
-                    <td><?php echo e($result['Rank']); ?></td>
+                    <td class="text-center"><?php echo e(number_format($result['C1'], 2)); ?></td>
+                    <td class="text-center"><?php echo e(number_format($result['C2'], 2)); ?></td>
+                    <td class="text-center"><?php echo e(number_format($result['C3'], 2)); ?></td>
+                    <td class="text-center"><?php echo e(number_format($result['Result'], 2)); ?></td>
+                    <td class="text-center"><?php echo e($result['Rank']); ?></td>
                 </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </tbody>

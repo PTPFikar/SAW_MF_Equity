@@ -34,13 +34,13 @@
             <tbody>
                 @foreach($results as $result)
                 <tr>
-                    <td>{{ $result['ISIN'] }}</td>
+                    <td class="text-center">{{ $result['ISIN'] }}</td>
                     <td>{{ $result['productName'] }}</td>
-                    <td>{{ number_format($result['C1'], 4) }}</td>
-                    <td>{{ number_format($result['C2'], 2) }}</td>
-                    <td>{{ number_format($result['C3'], 2) }}</td>
-                    <td>{{ number_format($result['Result'], 4) }}</td>
-                    <td>{{ $result['Rank'] }}</td>
+                    <td class="text-center">{{ number_format($result['C1'], 2) }}</td>
+                    <td class="text-center">{{ number_format($result['C2'], 2) }}</td>
+                    <td class="text-center">{{ number_format($result['C3'], 2) }}</td>
+                    <td class="text-center">{{ number_format($result['Result'], 2) }}</td>
+                    <td class="text-center">{{ $result['Rank'] }}</td>
                 </tr>
                 @endforeach
             </tbody>
