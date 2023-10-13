@@ -23,7 +23,7 @@
               
               <td class="text-center"><?php echo e($loop->iteration); ?></td>
               <td class="text-center"><?php echo e($object->ISIN); ?></td>
-              <td class="text-center"><?php echo e($object->productName); ?></td>
+              <td class><?php echo e($object->productName); ?></td>
               <td class="text-center"><?php echo e($object->sharpRatio); ?></td>
               <td class="text-center"><?php echo e($object->AUM); ?></td>
               <td class="text-center"><?php echo e($object->deviden); ?></td>

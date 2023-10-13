@@ -25,7 +25,7 @@
               {{-- $loop->iteraion => nomor / urutan loop keberapa nya --}}
               <td class="text-center">{{ $loop->iteration }}</td>
               <td class="text-center">{{ $object->ISIN }}</td>
-              <td class="text-center">{{ $object->productName }}</td>
+              <td class>{{ $object->productName }}</td>
               <td class="text-center">{{ $object->sharpRatio }}</td>
               <td class="text-center">{{ $object->AUM }}</td>
               <td class="text-center">{{ $object->deviden }}</td>
