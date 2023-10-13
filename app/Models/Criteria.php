@@ -9,5 +9,5 @@ class Criteria extends Model
 {
   use HasFactory;
 
-  protected $fillable = ['name', 'attribute', 'weight'];
+  protected $fillable = ['name', 'criteriaName', 'attribute', 'weight'];
 }

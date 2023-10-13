@@ -6,6 +6,8 @@ use App\Http\Controllers\DB;
 use App\Http\Requests\Products\ProductsUpdateRequest;
 use App\Models\Products;
 use Illuminate\Http\Request;
+use App\Exports\ProductsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminProductsController extends Controller
 {
@@ -59,4 +61,9 @@ class AdminProductsController extends Controller
     return redirect('/dashboard/products')
       ->with('success', 'The selected Products object has been deleted!');
   }
+
+  public function export_excel()
+	{
+		return Excel::download(new ProductsExport, 'products.xlsx');
+	}
 }

@@ -9,7 +9,7 @@
       <thead>
         <tr>
           <th scope="col" class="text-center">ID Criteria</th>
-          <th scope="col" class="text-center">Name</th>
+          <th scope="col" class="text-center">Criteria Name</th>
           <th scope="col" class="text-center">Attribute</th>
           <th scope="col" class="text-center">Weight</th>
         </tr>
@@ -20,8 +20,8 @@
             <tr>
               
               <td class="text-center"><?php echo e($loop->iteration); ?></td>
-              <td class="text-center"><?php echo e($criteria->name); ?></td>
-              <td class="text-center"><?php echo e(Str::ucfirst(Str::lower($criteria->attribute))); ?></td>
+              <td class="text-center"><?php echo e($criteria->criteriaName); ?></td>
+              <td class="text-center"><?php echo e($criteria->attribute); ?></td>
               <td class="text-center"><?php echo e($criteria->weight); ?></td>
             </tr>
           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

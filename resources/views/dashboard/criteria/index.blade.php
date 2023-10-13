@@ -11,7 +11,7 @@
       <thead>
         <tr>
           <th scope="col" class="text-center">ID Criteria</th>
-          <th scope="col" class="text-center">Name</th>
+          <th scope="col" class="text-center">Criteria Name</th>
           <th scope="col" class="text-center">Attribute</th>
           <th scope="col" class="text-center">Weight</th>
         </tr>
@@ -22,8 +22,8 @@
             <tr>
               {{-- $loop->iteraion => nomor / urutan loop keberapa nya --}}
               <td class="text-center">{{ $loop->iteration }}</td>
-              <td class="text-center">{{ $criteria->name }}</td>
-              <td class="text-center">{{ Str::ucfirst(Str::lower($criteria->attribute)) }}</td>
+              <td class="text-center">{{ $criteria->criteriaName }}</td>
+              <td class="text-center">{{ $criteria->attribute }}</td>
               <td class="text-center">{{ $criteria->weight }}</td>
             </tr>
           @endforeach

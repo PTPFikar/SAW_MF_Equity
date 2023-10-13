@@ -1,7 +1,6 @@
 @extends('layouts.main')
 
 @section('content')
-<div class="container my-5">
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Upload Products</h1>
   </div>
@@ -46,7 +45,7 @@
                     <td>{{$product->productName}}</td>
                     <td>{{$product->sharpRatio}}</td>
                     <td>{{$product->AUM}}</td>
-                    <td>{{$product->deviden == 1 ? 'YES': 'NO'}}</td>
+                    <td>{{$product->deviden == 2 ? 'YES': 'NO'}}</td>
                     <td>{{$product->date}}</td>
                 </tr>
             @endforeach

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Criteria;
+use Illuminate\Http\Request;
 
 class AdminCriteriaController extends Controller
 {

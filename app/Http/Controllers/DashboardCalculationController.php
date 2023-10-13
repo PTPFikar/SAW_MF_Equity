@@ -7,6 +7,8 @@ use App\Models\Products;
 use App\Models\Criteria;
 use App\Models\Result;
 use Illuminate\Support\Facades\DB;
+use App\Exports\ResultExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DashboardCalculationController extends Controller
 {
@@ -50,7 +52,7 @@ class DashboardCalculationController extends Controller
             $c1 = $alternative->sharpRatio;
             $c2 = $alternative->AUM;
             $c3 = $alternative->deviden;
-
+            
             foreach ($criterias as $criteria) {
                 if ($maxValues[$criteria->name] != 0) {
                     // Jika atribut adalah COST, gunakan min() untuk mencari nilai terendah
@@ -74,7 +76,6 @@ class DashboardCalculationController extends Controller
             ];
         }
 
-        // Urutkan alternatif berdasarkan nilai preferensi (peringkat)
         $alternatives = $alternatives->map(function ($alternative) use ($preferences) {
             $alternative->c1 = $preferences[$alternative->id]['C1'];
             $alternative->c2 = $preferences[$alternative->id]['C2'];
@@ -83,7 +84,6 @@ class DashboardCalculationController extends Controller
             return $alternative;
         })->sortByDesc('preferenceValue');
 
-        // Hitung rank dan simpan hasil perhitungan ke dalam array
         $results = [];
         $rank = 1;
 
@@ -103,8 +103,13 @@ class DashboardCalculationController extends Controller
         }
         return view('dashboard.calculation.index', [
             'title' => 'Calculation',
-            'results' => $results, // Add this line to pass the results to the view
+            'results' => $results,
             'date' => $date
         ]);
+      }
+
+      public function export_excel()
+      {
+          return Excel::download(new ResultExport, 'result.xlsx');
       }
 }

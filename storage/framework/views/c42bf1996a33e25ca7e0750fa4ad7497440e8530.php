@@ -26,7 +26,7 @@
               <td class><?php echo e($object->productName); ?></td>
               <td class="text-center"><?php echo e($object->sharpRatio); ?></td>
               <td class="text-center"><?php echo e($object->AUM); ?></td>
-              <td class="text-center"><?php echo e($object->deviden); ?></td>
+              <td class="text-center"><?php echo e($object->deviden == 2 ? 'YES': 'NO'); ?></td>
               <td class="text-center"><?php echo e($object->date); ?></td>
               <td class="text-center">
                 <a href="<?php echo e(route('product.edit', $object->id)); ?>" class="text-decoration-none text-success">
@@ -54,6 +54,11 @@
     </table>
     <?php echo e($objects->links()); ?>
 
+      <a href="products/export_excel">
+        <button type="submit" class="btn btn-success mb-3">
+        Download
+        </button>
+      </a>
   </div>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\MyFiles\Kuliah\Skripsi\Aplication\SPK-SAW\resources\views/dashboard/products/index.blade.php ENDPATH**/ ?>

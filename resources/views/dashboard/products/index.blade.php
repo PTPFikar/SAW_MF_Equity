@@ -28,7 +28,7 @@
               <td class>{{ $object->productName }}</td>
               <td class="text-center">{{ $object->sharpRatio }}</td>
               <td class="text-center">{{ $object->AUM }}</td>
-              <td class="text-center">{{ $object->deviden }}</td>
+              <td class="text-center">{{ $object->deviden == 2 ? 'YES': 'NO' }}</td>
               <td class="text-center">{{ $object->date }}</td>
               <td class="text-center">
                 <a href="{{route('product.edit', $object->id)}}" class="text-decoration-none text-success">
@@ -55,5 +55,10 @@
       </tbody>
     </table>
     {{ $objects->links() }}
+      <a href="products/export_excel">
+        <button type="submit" class="btn btn-success mb-3">
+        Download
+        </button>
+      </a>
   </div>
 @endsection

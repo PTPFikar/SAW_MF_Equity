@@ -11,7 +11,7 @@
             <input type="date" class="form-control" id="date" name="date" required
             value="{{ $date ?? '' }}">
         </div>
-        <button type="submit" class="btn btn-primary mb-3 lg-2">
+        <button type="submit" class="btn btn-primary">
             <span data-feather="check-square"></span>
             Calculate
         </button>
@@ -36,15 +36,20 @@
                 <tr>
                     <td>{{ $result['ISIN'] }}</td>
                     <td>{{ $result['productName'] }}</td>
-                    <td>{{ $result['C1'] }}</td>
-                    <td>{{ $result['C2'] }}</td>
-                    <td>{{ $result['C3'] }}</td>
-                    <td>{{ $result['Result'] }}</td>
+                    <td>{{ number_format($result['C1'], 4) }}</td>
+                    <td>{{ number_format($result['C2'], 2) }}</td>
+                    <td>{{ number_format($result['C3'], 2) }}</td>
+                    <td>{{ number_format($result['Result'], 4) }}</td>
                     <td>{{ $result['Rank'] }}</td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
+        <a href="calculation/export_excel">
+            <button type="submit" class="btn btn-success mb-3">
+            Download
+            </button>
+          </a>
     </div>
     @endif
 @endsection

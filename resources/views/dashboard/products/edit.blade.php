@@ -45,8 +45,8 @@
       <label for="deviden" class="form-label">Deviden</label>
       <select class="form-select @error("deviden") is-invalid @enderror" id="deviden" name="deviden" required>
         <option value="" disabled selected>Choose One</option>
-        <option value="1" {{ old('deviden', $object->deviden) === '1' ?  'selected' : '' }}>YES</option>
-        <option value="0" {{ old('deviden', $object->deviden) === '0' ?  'selected' : '' }}>NO</option>
+        <option value="2" {{ old('deviden', $object->deviden) === '2' ?  'selected' : '' }}>YES</option>
+        <option value="1" {{ old('deviden', $object->deviden) === '1' ?  'selected' : '' }}>NO</option>
       </select>
 
       @error('deviden')

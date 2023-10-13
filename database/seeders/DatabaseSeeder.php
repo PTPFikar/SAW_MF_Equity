@@ -26,9 +26,9 @@ class DatabaseSeeder extends Seeder
     ]);
 
     $criterias = [
-      ['id' => 1, 'name' => 'sharpRatio', 'attribute' => 'BENEFIT', 'weight' => '25'],
-      ['id' => 2, 'name' => 'AUM', 'attribute' => 'BENEFIT', 'weight' => '50'],
-      ['id' => 3, 'name' => 'deviden', 'attribute' => 'BENEFIT', 'weight' => '25'],
+      ['id' => 1, 'name' => 'sharpRatio', 'criteriaName' => 'Sharp Ratio', 'attribute' => 'BENEFIT', 'weight' => '25'],
+      ['id' => 2, 'name' => 'AUM', 'criteriaName' => 'AUM', 'attribute' => 'BENEFIT', 'weight' => '50'],
+      ['id' => 3, 'name' => 'deviden', 'criteriaName' => 'Deviden', 'attribute' => 'BENEFIT', 'weight' => '25'],
     ];
     Criteria::insert($criterias);
   }

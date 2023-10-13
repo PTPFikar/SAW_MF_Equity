@@ -38,6 +38,8 @@ Route::middleware('auth')->group(function () {
 
   Route::get('dashboard/calculation', [DashboardCalculationController::class, 'index'])->name('dashboard.calculation');
   Route::post('dashboard/calculation', [DashboardCalculationController::class, 'calculateSAW'])->name('calculateSAW');
+  Route::get('dashboard/calculation/export_excel', [DashboardCalculationController::class, 'export_excel']);
+
 
   Route::get('dashboard/upload-products', [DashboardUploadProductsController::class,'index']);
   Route::post('dashboard/upload-products', [DashboardUploadProductsController::class,'upload_csv_file'])->name('upload_csv');
@@ -46,6 +48,7 @@ Route::middleware('auth')->group(function () {
   Route::get('dashboard/products/edit/{id}', [AdminProductsController::class, 'edit'])->name('product.edit');
   Route::put('dashboard/products/update/{id}', [AdminProductsController::class, 'update'])->name('product.update');
   Route::delete('dashboard/products/{id}', [AdminProductsController::class, 'destroy'])->name('product.delete');
+  Route::get('dashboard/products/export_excel', [AdminProductsController::class, 'export_excel']);
 
   Route::resources([
     'dashboard/criterias'     => AdminCriteriaController::class

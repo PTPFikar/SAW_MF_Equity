@@ -27,7 +27,7 @@ class DashboardUploadProductsController extends Controller
     
         $file = $request->file('file');
 
-        $csv = Reader::createFromPath($file->getPathname(), 'r'); // Use the Reader class
+        $csv = Reader::createFromPath($file->getPathname(), 'r'); 
         $csv->setHeaderOffset(0);
     
         foreach ($csv as $row) {
@@ -38,13 +38,10 @@ class DashboardUploadProductsController extends Controller
             $aum = floatval($row['Asset Under Management (AUM)']);
             $dividend = $row['Deviden'];
             $date = $row['Date'];
-            // dd($expectReturn);
 
-            // Cari data produk berdasarkan "isin" atau "productName"
-            $product = Products::where('isin', $isin)->orWhere('productName', $productName)->first();
+            //Check Products
+            $product = Products::where('date', $date)->Where('isin', $isin)->first();
             if (!$product) {
-                // Jika produk belum ada, buat entri baru
-
                 $product = new Products();
                 $product->ISIN = $isin;
                 $product->productName = $productName;
@@ -54,22 +51,19 @@ class DashboardUploadProductsController extends Controller
                     $product->sharpRatio = 0;
                 }
                 $product->AUM = $aum;
-                $product->deviden = ($dividend === 'YES') ? 1 : 0; // Konversi "YES" menjadi "YES" atau "NO"
+                $product->deviden = ($dividend === 'YES') ? 2 : 1;
                 if (!empty($date)) {
                     $product->date = $date;
                 }
                 $product->save();
             } else {
-                // Jika produk sudah ada, update nilainya
-                // dd($standarDeviasi);
-
                 if ($standarDeviasi != 0) {
                     $product->sharpRatio = $expectReturn / $standarDeviasi;
                 } else {
                     $product->sharpRatio = 0;
                 }
                 $product->AUM = $aum;
-                $product->deviden = ($dividend === 'YES') ? 1 : 0;
+                $product->deviden = ($dividend === 'YES') ? 2 : 1;
                 if (!empty($date)) {
                     $product->date = $date;
                 }
