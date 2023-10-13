@@ -45,11 +45,18 @@
                 @endforeach
             </tbody>
         </table>
-        <a href="calculation/export_excel">
+        <form action="{{ route('calculate.exports', $date) }}" method="POST">
+            @csrf
+            {{-- <div class="table-responsive col-lg-2" hidden>
+                <label for="date" class="form-label">Select Date</label>
+                <input type="date" class="form-control" id="date" name="date" required
+                value="{{ $date ?? '' }}">
+            </div> --}}
             <button type="submit" class="btn btn-success mb-3">
             Download
             </button>
-          </a>
+        </form>
+       
     </div>
     @endif
 @endsection

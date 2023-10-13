@@ -62,8 +62,8 @@ class AdminProductsController extends Controller
       ->with('success', 'The selected Products object has been deleted!');
   }
 
-  public function export_excel()
+  public function export_excel(Request $request)
 	{
-		return Excel::download(new ProductsExport, 'products.xlsx');
+		return Excel::download(new ProductsExport($request), 'products.xlsx');
 	}
 }

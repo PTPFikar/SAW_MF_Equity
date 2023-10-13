@@ -19,11 +19,10 @@ class DashboardCalculationController extends Controller
         ]);
     }
 
-    public function calculateSAW(Request $request)
+    public function calculateSAW($date)
     {
         // Mengambil data produk (alternatif) dari model Product
-        $input = $request->all();
-        $date = $input['date'];
+        
         $alternatives = Products::where('date', $date)->get();
 
         // Mengambil data kriteria dari model Criteria
@@ -98,15 +97,26 @@ class DashboardCalculationController extends Controller
 
             $rank++;
         }
+        return $results;
+    }
+    
+    public function calculate(Request $request) {
+        $input = $request->all();
+        $date = $input['date'];
+        $results = $this->calculateSAW($date);
+        // dd($results);
         return view('dashboard.calculation.index', [
             'title' => 'Calculation',
             'results' => $results,
             'date' => $date
         ]);
     }
+    public function export_excel($date)
+    {
+        $results = $this->calculateSAW($date);
     
-      public function export_excel()
-      {
-          return Excel::download(new ResultExport, 'result.xlsx');
-      }
+        // Convert the array to a collection
+        $resultsCollection =  collect($results);
+        return Excel::download(new ResultExport($resultsCollection), 'result.xlsx');
+    }
 }
