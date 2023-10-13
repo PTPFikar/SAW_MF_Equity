@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('content'); ?>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Calculation SAW</h1>
@@ -8,7 +6,8 @@
         <?php echo csrf_field(); ?>
         <div class="table-responsive col-lg-2">
             <label for="date" class="form-label">Select Date</label>
-            <input type="date" class="form-control" id="date" name="date" required>
+            <input type="date" class="form-control" id="date" name="date" required
+            value="<?php echo e($date ?? ''); ?>">
         </div>
         <button type="submit" class="btn btn-primary mb-3 lg-2">
             <span data-feather="check-square"></span>
@@ -38,7 +37,7 @@
                     <td><?php echo e($result['C1']); ?></td>
                     <td><?php echo e($result['C2']); ?></td>
                     <td><?php echo e($result['C3']); ?></td>
-                    <td><?php echo e($result['result']); ?></td>
+                    <td><?php echo e($result['Result']); ?></td>
                     <td><?php echo e($result['Rank']); ?></td>
                 </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('content'); ?>
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Products</h1>
@@ -47,7 +45,7 @@
           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         <?php else: ?>
           <tr>
-            <td colspan="6" class="text-danger text-center p-4">
+            <td colspan="7" class="text-danger text-center p-4">
               <h4>You haven't create any products objects yet</h4>
             </td>
           </tr>

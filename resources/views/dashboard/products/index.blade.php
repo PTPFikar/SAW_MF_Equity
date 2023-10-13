@@ -47,7 +47,7 @@
           @endforeach
         @else
           <tr>
-            <td colspan="6" class="text-danger text-center p-4">
+            <td colspan="7" class="text-danger text-center p-4">
               <h4>You haven't create any products objects yet</h4>
             </td>
           </tr>

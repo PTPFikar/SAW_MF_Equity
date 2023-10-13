@@ -25,7 +25,6 @@ class DatabaseSeeder extends Seeder
       'level'    => 'SUPERADMIN'
     ]);
 
-    //DB::table('criterias')->insert($criterias);
     $criterias = [
       ['id' => 1, 'name' => 'sharpRatio', 'attribute' => 'BENEFIT', 'weight' => '25'],
       ['id' => 2, 'name' => 'AUM', 'attribute' => 'BENEFIT', 'weight' => '50'],
