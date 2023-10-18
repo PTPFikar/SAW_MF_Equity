@@ -21,6 +21,7 @@ class AdminProductsController extends Controller
     ]);
   }
 
+  // Edit data products
   public function edit($id)
   {
     $this->authorize('update', Products::class);
@@ -32,9 +33,9 @@ class AdminProductsController extends Controller
     ]);
   }
 
+  // Req update data products
   public function update(Request $request, $id)
   {
-    // dd($id);
     $this->validate($request,[
       'sharpRatio'  => 'required',
       'AUM'         => 'required',
@@ -51,9 +52,9 @@ class AdminProductsController extends Controller
       ->with('success', 'The selected Products object has been updated!');
   }
 
+  // Delete data products
   public function destroy($id)
   {
-    // dd($id);
     $this->authorize('delete', Products::class);
     $products = Products::find($id);
     $products->delete();

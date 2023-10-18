@@ -22,14 +22,14 @@ class AuthController extends Controller
   {
     $credentials = $request->validated();
 
-    // autentikasi user
+    // Auth user Sign In
     if (Auth::attempt($credentials)) {
       $request->session()->regenerate();
 
       return redirect()->intended('/dashboard');
     }
 
-    // sign in gagal
+    // Sign In Fail
     return back()->with('failed', "Sign in failed, please try again");
   }
 

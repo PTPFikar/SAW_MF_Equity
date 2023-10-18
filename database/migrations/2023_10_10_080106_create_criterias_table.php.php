@@ -15,7 +15,7 @@ return new class extends Migration
   {
     Schema::create('criterias', function (Blueprint $table) {
       $table->id();
-      $table->string('name')->unique();
+      $table->string('name');
       $table->string('criteriaName'); 
       $table->string('attribute');
       $table->integer('weight'); 

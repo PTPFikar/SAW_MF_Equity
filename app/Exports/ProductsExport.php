@@ -10,6 +10,7 @@ use PhpParser\Node\Expr\Cast\String_;
 
 class ProductsExport implements FromCollection, WithHeadings
 {
+    // Head Column in Excel
     public function headings(): array
     {
         return [
@@ -22,6 +23,7 @@ class ProductsExport implements FromCollection, WithHeadings
         ];
     }
 
+    // Result Export
     public function collection()
     {
         return Products::select('ISIN', 'productName', 'sharpRatio', 'AUM', 'deviden', 'date')->get();

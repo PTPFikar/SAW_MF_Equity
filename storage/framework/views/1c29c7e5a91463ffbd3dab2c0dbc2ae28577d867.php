@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('content'); ?>
   <main class="form-signin">
     <img class="mb-4" src="/assets/img/unbin.png" alt="UNBIN" width="171" height="168">

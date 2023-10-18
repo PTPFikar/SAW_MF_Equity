@@ -10,10 +10,9 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 
 class ResultExport implements FromCollection, WithHeadings
 {
-    
-
     protected $results;
-
+ 
+    // Head Column in Excel
     public function __construct($results)
     {
         $this->results = $results;
@@ -32,6 +31,7 @@ class ResultExport implements FromCollection, WithHeadings
         ];
     }
 
+    // Result Export
     public function collection()
     {
         return $this->results;

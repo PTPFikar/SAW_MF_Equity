@@ -4,6 +4,11 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Calculation SAW</h1>
     </div>
+    @if(session('error'))
+    <div class="alert alert-error">
+        {{ session('error') }}
+    </div>
+    @endif
     <form method="post" action="{{ route('calculateSAW') }}">
         @csrf
         <div class="table-responsive col-lg-2">
@@ -16,7 +21,13 @@
             Calculate
         </button>
     </form>
-    <!-- Display results if available -->
+    @if (session('error'))
+        <div class="alert alert-error alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    <!-- Display Data if Available -->
     @if(isset($results))
     <div class="table-responsive col-lg-10">
         <table class="table table-striped">
@@ -47,11 +58,6 @@
         </table>
         <form action="{{ route('calculate.exports', $date) }}" method="POST">
             @csrf
-            {{-- <div class="table-responsive col-lg-2" hidden>
-                <label for="date" class="form-label">Select Date</label>
-                <input type="date" class="form-control" id="date" name="date" required
-                value="{{ $date ?? '' }}">
-            </div> --}}
             <button type="submit" class="btn btn-success mb-3">
             Download
             </button>

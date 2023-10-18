@@ -39,8 +39,8 @@ class DashboardUploadProductsController extends Controller
             $dividend = $row['Deviden'];
             $date = $row['Date'];
 
-            //Check Products
-            $product = Products::where('date', $date)->Where('isin', $isin)->first();
+            //Check products
+            $product = Products::Where('date', $date)->Where('isin', $isin)->first();
             if (!$product) {
                 $product = new Products();
                 $product->ISIN = $isin;

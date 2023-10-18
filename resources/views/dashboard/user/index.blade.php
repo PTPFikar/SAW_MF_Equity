@@ -25,7 +25,7 @@
         @if ($users->count())
           @foreach ($users as $user)
             <tr>
-              {{-- $loop->iteraion => nomor / urutan loop keberapa nya --}}
+              {{-- $loop->iteraion => The number / Order of the loop --}}
               <td class="text-center">{{ $loop->iteration }}</td>
               <td class="text-center">{{ $user->name }}</td>
               <td class="text-center">{{ $user->username }}</td>

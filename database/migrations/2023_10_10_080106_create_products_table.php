@@ -15,7 +15,7 @@ return new class extends Migration
   {
     Schema::create('products', function (Blueprint $table) {
       $table->id();
-      $table->string('ISIN')->unique();
+      $table->string('ISIN');
       $table->string('productName');
       $table->decimal('sharpRatio', 10, 4);
       $table->bigInteger('AUM');

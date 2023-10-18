@@ -9,6 +9,7 @@ use App\Models\Result;
 use Illuminate\Support\Facades\DB;
 use App\Exports\ResultExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Alert;
 
 class DashboardCalculationController extends Controller
 {
@@ -21,27 +22,26 @@ class DashboardCalculationController extends Controller
 
     public function calculateSAW($date)
     {
-        // Mengambil data produk (alternatif) dari model Product
-        
+        // Get data products from Model Products
         $alternatives = Products::where('date', $date)->get();
-
-        // Mengambil data kriteria dari model Criteria
+        
+        // Get data crierias from Model Criteria
         $criterias = Criteria::all();
 
-        // Maksimum nilai untuk tiap kriteria
+        // Max Value each Criteria
         $maxValues = [];
 
         foreach ($criterias as $criteria) {
-            // Jika atribut adalah COST, gunakan min() untuk mencari nilai terendah
+            // If atribut is COST = minValues each Criteria
             if ($criteria->attribute === 'COST') {
                 $maxValues[$criteria->name] = $alternatives->min($criteria->name);
             } else {
-                // Jika atribut adalah BENEFIT, gunakan max() untuk mencari nilai tertinggi
+                // If atribut is BENEFIT = maxValues each Criteria
                 $maxValues[$criteria->name] = $alternatives->max($criteria->name);
             }
         }
 
-        // Hitung nilai preferensi
+        // Calculate the preference value
         $preferences = [];
 
         foreach ($alternatives as $alternative) {
@@ -49,11 +49,11 @@ class DashboardCalculationController extends Controller
 
             foreach ($criterias as $criteria) {
                 if ($maxValues[$criteria->name] != 0) {
-                    // Jika atribut adalah COST, gunakan min() untuk mencari nilai terendah
+                    // If atribut is COST = minValues each Criteria
                     if ($criteria->attribute === 'COST') {
                         $preferenceValue += $criteria->weight * ($maxValues[$criteria->name] / $alternative->{$criteria->name});
                     } else {
-                        // Jika atribut adalah BENEFIT, gunakan max() untuk mencari nilai tertinggi
+                        // If atribut is BENEFIT = maxValues each Criteria
                         $preferenceValue += $criteria->weight * ($alternative->{$criteria->name} / $maxValues[$criteria->name]);
                     }
                 } else {
@@ -70,7 +70,7 @@ class DashboardCalculationController extends Controller
             ];
         }
 
-        // Urutkan alternatif berdasarkan nilai preferensi (peringkat)
+        // Sort alternatives by rank
         $alternatives = $alternatives->map(function ($alternative) use ($preferences) {
             $alternative->c1 = $preferences[$alternative->id]['C1'];
             $alternative->c2 = $preferences[$alternative->id]['C2'];
@@ -79,7 +79,7 @@ class DashboardCalculationController extends Controller
             return $alternative;
         })->sortByDesc('preferenceValue');
 
-        // Hitung rank dan simpan hasil perhitungan ke dalam array
+        // Calculate the rank and store the result into an array
         $results = [];
         $rank = 1;
 
@@ -104,18 +104,23 @@ class DashboardCalculationController extends Controller
         $input = $request->all();
         $date = $input['date'];
         $results = $this->calculateSAW($date);
-        // dd($results);
+
+        if (empty($results)) {
+            return redirect()->back()->with('Error', 'Data Not Found');
+        }
+
         return view('dashboard.calculation.index', [
             'title' => 'Calculation',
             'results' => $results,
             'date' => $date
         ]);
     }
+
     public function export_excel($date)
     {
         $results = $this->calculateSAW($date);
     
-        // Convert the array to a collection
+        // Convert array to a collection
         $resultsCollection =  collect($results);
         return Excel::download(new ResultExport($resultsCollection), 'result.xlsx');
     }

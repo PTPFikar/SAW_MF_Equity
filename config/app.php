@@ -177,6 +177,7 @@ return [
     App\Providers\EventServiceProvider::class,
     App\Providers\RouteServiceProvider::class,
     Yajra\DataTables\DataTablesServiceProvider::class,
+    RealRashid\SweetAlert\SweetAlertServiceProvider::class,
 
   ],
 
@@ -194,6 +195,7 @@ return [
   'aliases' => [
     //..
     'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+    'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
   ],
 
 ];

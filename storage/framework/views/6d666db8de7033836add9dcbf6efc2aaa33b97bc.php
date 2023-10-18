@@ -1,7 +1,15 @@
+
+
 <?php $__env->startSection('content'); ?>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Calculation SAW</h1>
     </div>
+    <?php if(session('error')): ?>
+    <div class="alert alert-error">
+        <?php echo e(session('error')); ?>
+
+    </div>
+    <?php endif; ?>
     <form method="post" action="<?php echo e(route('calculateSAW')); ?>">
         <?php echo csrf_field(); ?>
         <div class="table-responsive col-lg-2">
@@ -14,7 +22,14 @@
             Calculate
         </button>
     </form>
-    <!-- Display results if available -->
+    <?php if(session('error')): ?>
+        <div class="alert alert-error alert-dismissible fade show" role="alert">
+        <?php echo e(session('error')); ?>
+
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+    <!-- Display Data if Available -->
     <?php if(isset($results)): ?>
     <div class="table-responsive col-lg-10">
         <table class="table table-striped">
@@ -43,11 +58,13 @@
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </tbody>
         </table>
-        <a href="calculation/export_excel">
+        <form action="<?php echo e(route('calculate.exports', $date)); ?>" method="POST">
+            <?php echo csrf_field(); ?>
             <button type="submit" class="btn btn-success mb-3">
             Download
             </button>
-          </a>
+        </form>
+       
     </div>
     <?php endif; ?>
 <?php $__env->stopSection(); ?>

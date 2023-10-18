@@ -22,7 +22,7 @@
         @if ($objects->count())
           @foreach ($objects as $object)
             <tr>
-              {{-- $loop->iteraion => nomor / urutan loop keberapa nya --}}
+              {{-- $loop->iteraion => The number / Order of the loop --}}
               <td class="text-center">{{ $loop->iteration }}</td>
               <td class="text-center">{{ $object->ISIN }}</td>
               <td class>{{ $object->productName }}</td>

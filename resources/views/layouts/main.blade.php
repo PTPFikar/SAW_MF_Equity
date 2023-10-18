@@ -16,26 +16,21 @@
 
     {{-- Topbar --}}
     @include('partials.topbar')
-    {{-- Topbar --}}
 
     <div class="container-fluid">
       <div class="row">
         {{-- Sidebar --}}
         @include('partials.sidebar')
-        {{-- Sidebar --}}
 
         {{-- Main Content --}}
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
           @yield('content')
         </main>
-        {{-- Main Content --}}
       </div>
     </div>
 
     <script src="/assets/js/bootstrap.bundle.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/assets/js/script.js"></script>
     <script src="/assets/js/dashboard.js"></script>

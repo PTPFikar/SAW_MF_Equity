@@ -91,7 +91,7 @@ unset($__errorArgs, $__bag); ?>
     </button>
   </form>
 
-  <!-- Modal Update Password -->
+  <!-- Update Password -->
   <div class="modal fade" id="modalUbahPassword" tabindex="-1" aria-labelledby="modalUbahPasswordLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">

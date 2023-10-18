@@ -7,11 +7,6 @@ use Illuminate\Http\Request;
 
 class AdminCriteriaController extends Controller
 {
-  /**
-   * Display a listing of the resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
   public function index()
   {
     $this->authorize('viewAny', Criteria::class);

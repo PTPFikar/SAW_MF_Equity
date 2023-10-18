@@ -24,9 +24,11 @@ class DashboardProfileController extends Controller
     $validate = $request->validated();
 
     if ($validate['oldPassword'] ?? false) {
+
       //check password
       if (Hash::check($validate['oldPassword'], $user->password)) {
-        // password match
+        
+        // password matching
         $newPass = Hash::make($validate['password']);
 
         User::where('id', $user->id)
