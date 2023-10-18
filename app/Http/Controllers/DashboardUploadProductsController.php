@@ -71,7 +71,6 @@ class DashboardUploadProductsController extends Controller
             }
 
         }
-        $products = Products::all();
         return redirect()->back()->with('success', 'CSV data imported successfully.');
     }
 }

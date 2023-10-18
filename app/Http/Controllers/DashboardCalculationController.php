@@ -106,7 +106,7 @@ class DashboardCalculationController extends Controller
         $results = $this->calculateSAW($date);
 
         if (empty($results)) {
-            return redirect()->back()->with('Error', 'Data Not Found');
+            return back()->with('failed', 'Tidak Ada Data');
         }
 
         return view('dashboard.calculation.index', [
