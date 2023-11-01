@@ -22,26 +22,26 @@ class DashboardCalculationController extends Controller
 
     public function calculateSAW($date)
     {
-        // Get Data Products From Model Products
+        // Get data products from Model Products
         $alternatives = Products::where('date', $date)->get();
         
-        // Get Data Crierias From Model Criteria
+        // Get data crierias from Model Criteria
         $criterias = Criteria::all();
 
-        // Max Value Each Criteria
+        // Max Value each Criteria
         $maxValues = [];
 
         foreach ($criterias as $criteria) {
-            // If Attribute is COST = minValues Each Criteria
+            // If atribut is COST = minValues each Criteria
             if ($criteria->attribute === 'COST') {
                 $maxValues[$criteria->name] = $alternatives->min($criteria->name);
             } else {
-                // If Attribute is BENEFIT = maxValues Each Criteria
+                // If atribut is BENEFIT = maxValues each Criteria
                 $maxValues[$criteria->name] = $alternatives->max($criteria->name);
             }
         }
 
-        // Calculate The Preference Value
+        // Calculate the preference value
         $preferences = [];
 
         foreach ($alternatives as $alternative) {
@@ -49,11 +49,11 @@ class DashboardCalculationController extends Controller
 
             foreach ($criterias as $criteria) {
                 if ($maxValues[$criteria->name] != 0) {
-                    // If Attribute is COST = minValues Each Criteria
+                    // If atribut is COST = minValues each Criteria
                     if ($criteria->attribute === 'COST') {
                         $preferenceValue += $criteria->weight * ($maxValues[$criteria->name] / $alternative->{$criteria->name});
                     } else {
-                        // If Attribute is BENEFIT = maxValues Each Criteria
+                        // If atribut is BENEFIT = maxValues each Criteria
                         $preferenceValue += $criteria->weight * ($alternative->{$criteria->name} / $maxValues[$criteria->name]);
                     }
                 } else {
@@ -70,7 +70,7 @@ class DashboardCalculationController extends Controller
             ];
         }
 
-        // Sort Alternatives by Rank
+        // Sort alternatives by rank
         $alternatives = $alternatives->map(function ($alternative) use ($preferences) {
             $alternative->c1 = $preferences[$alternative->id]['C1'];
             $alternative->c2 = $preferences[$alternative->id]['C2'];
@@ -79,9 +79,8 @@ class DashboardCalculationController extends Controller
             return $alternative;
         })->sortByDesc('preferenceValue');
 
-        // Calculate The Rank and Store The Result Into an Array
+        // Calculate the rank and store the result into an array
         $results = [];
-        $normalization = [];
         $rank = 1;
 
         foreach ($alternatives as $alternative) {
@@ -98,39 +97,96 @@ class DashboardCalculationController extends Controller
 
             $rank++;
         }
-        $data = [
-            'result' => $results,
-            'maxvalues' => $maxValues,
-            'preference' => $preferences,
-        ];
-    
-        return $data;
+        // return $results;
+        return ['maxValues' => $maxValues, 'criterias' => $criterias, 'results' => $results];
+
     }
     
-    public function calculate(Request $request)
-{
-    $input = $request->all();
-    $date = $input['date'];
-    $calculationData = $this->calculateSAW($date);
+    // public function calculate(Request $request) {
+    //     $input = $request->all();
+    //     $date = $input['date'];
+    //     $results = $this->calculateSAW($date);
 
-    if (empty($calculationData['result'])) {
-        return back()->with('failed', 'Tidak Ada Data');
+    //     if (empty($results)) {
+    //         return back()->with('failed', 'Tidak Ada Data');
+    //     }
+
+    //     return view('dashboard.calculation.index', [
+    //         'title' => 'Calculation',
+    //         'results' => $results,
+    //         'date' => $date
+    //     ]);
+    // }
+
+    public function calculate(Request $request) {
+        $input = $request->all();
+        $date = $input['date'];
+        $calculationResult = $this->calculateSAW($date);
+    
+        if (empty($calculationResult['results'])) {
+            return back()->with('failed', 'Tidak Ada Data');
+        }
+    
+        $maxValues = $calculationResult['maxValues'];
+        $criterias = $calculationResult['criterias'];
+        $results = $calculationResult['results'];
+    
+        // 1. Raw Data Produk / Alternatif
+        $rawData = Products::where('date', $date)->get();
+        $rawDataWithDetails = [];
+
+        foreach ($rawData as $alternative) {
+            $rawDataWithDetails[$alternative->id] = [
+                'ID' => $alternative->id,
+                'ISIN' => $alternative->ISIN,
+                'productName' => $alternative->productName,
+                'C1' => $alternative->sharpRatio,
+                'C2' => $alternative->AUM,
+                'C3' => $alternative->deviden,
+            ];
+        }
+        // 2. Normalisasi yang sudah dibagi dengan nilai maksimum untuk setiap alternatif
+        $normalizedData = [];
+        foreach ($rawData as $alternative) {
+            $normalizedData[$alternative->id] = [
+                'ID' => $alternative->id,
+                'ISIN' => $alternative->ISIN,
+                'productName' => $alternative->productName,
+                'C1' => $alternative->sharpRatio / $maxValues['sharpRatio'],
+                'C2' => $alternative->AUM / $maxValues['AUM'],
+                'C3' => $alternative->deviden / $maxValues['deviden'],
+            ];
+        }
+
+        // 3. Preferensi / Nilai Hasil yang sudah dikalikan dengan bobot
+        $weightedData = [];
+        foreach ($rawData as $alternative) {
+            $weightedData[$alternative->id] = [
+                'ID' => $alternative->id,
+                'ISIN' => $alternative->ISIN,
+                'productName' => $alternative->productName,
+                'C1' => $normalizedData[$alternative->id]['C1'] * $criterias->where('name', 'sharpRatio')->first()->weight,
+                'C2' => $normalizedData[$alternative->id]['C2'] * $criterias->where('name', 'AUM')->first()->weight,
+                'C3' => $normalizedData[$alternative->id]['C3'] * $criterias->where('name', 'deviden')->first()->weight,
+            ];
+        }
+        // dd($weightedData);
+        return view('dashboard.calculation.index', [
+            'title' => 'Calculation',
+            'results' => $results,
+            'date' => $date,
+            'rawData' => $rawDataWithDetails,
+            'normalizedData' => $normalizedData,
+            'weightedData' => $weightedData,
+        ]);
     }
-
-    return view('dashboard.calculation.index', [
-        'title' => 'Calculation',
-        'results' => $calculationData['result'],
-        'date' => $date,
-        'maxvalues' => $calculationData['maxvalues'],
-        'preference' => $calculationData['preference'],
-    ]);
-}
+    
 
     public function export_excel($date)
     {
         $results = $this->calculateSAW($date);
     
-        // Convert Array To a Collection
+        // Convert array to a collection
         $resultsCollection =  collect($results);
         return Excel::download(new ResultExport($resultsCollection), 'result.xlsx');
     }

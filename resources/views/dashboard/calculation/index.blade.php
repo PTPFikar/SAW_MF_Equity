@@ -22,7 +22,7 @@
        <!-- Display Data if Available // Raw Data
     RAW data itu data apa adanya dari Tabel Product, untuk yg deviden jika YES = 2 jika NO = 1
     -->
-       @if(isset($results))
+       @if(isset($rawData))
        <div class="table-responsive col-lg-10 text-center">
            <br>
            <h1 class="h2">Raw Data</h1>
@@ -39,13 +39,13 @@
                    </tr>
                </thead>
                <tbody>
-                   @foreach($results as $result)
+                   @foreach($rawData as $data)
                    <tr>
-                       <td class="text-center">{{ $result['ISIN'] }}</td>
-                       <td>{{ $result['productName'] }}</td>
-                       <td class="text-center">{{ number_format($result['C1'], 2) }}</td>
-                       <td class="text-center">{{ number_format($result['C2'], 2) }}</td>
-                       <td class="text-center">{{ number_format($result['C3'], 2) }}</td>
+                       <td class="text-center">{{ $data['ISIN'] }}</td>
+                       <td>{{ $data['productName'] }}</td>
+                       <td class="text-center">{{ number_format($data['C1'], 2) }}</td>
+                       <td class="text-center">{{ number_format($data['C2'], 2) }}</td>
+                       <td class="text-center">{{ number_format($data['C3'], 2) }}</td>
                    </tr>
                    @endforeach
                </tbody>
@@ -55,7 +55,7 @@
     <!-- Display Data if Available // Normalization 
     Normalisasi itu adalah nilai product yang dibagi dengan nilai MaxValue per kriteria karena BENEFIT semua
     -->
-    @if(isset($results))
+    @if(isset($normalizedData))
     <div class="table-responsive col-lg-10 text-center">
         <br>
         <h1 class="h2">Normalization Data</h1>
@@ -72,13 +72,13 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($results as $result)
+                @foreach($normalizedData as $n_data)
                 <tr>
-                    <td class="text-center">{{ $result['ISIN'] }}</td>
-                    <td>{{ $result['productName'] }}</td>
-                    <td class="text-center">{{ number_format($result['C1'], 2) }}</td>
-                    <td class="text-center">{{ number_format($result['C2'], 2) }}</td>
-                    <td class="text-center">{{ number_format($result['C3'], 2) }}</td>
+                    <td class="text-center">{{ $n_data['ISIN'] }}</td>
+                    <td>{{ $n_data['productName'] }}</td>
+                    <td class="text-center">{{ number_format($n_data['C1'], 2) }}</td>
+                    <td class="text-center">{{ number_format($n_data['C2'], 2) }}</td>
+                    <td class="text-center">{{ number_format($n_data['C3'], 2) }}</td>
                 </tr>
                 @endforeach
             </tbody>
