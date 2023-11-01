@@ -22,15 +22,15 @@ class AuthController extends Controller
   {
     $credentials = $request->validated();
 
-    // Auth user Sign In
+    // Auth User Log In
     if (Auth::attempt($credentials)) {
       $request->session()->regenerate();
 
       return redirect()->intended('/dashboard');
     }
 
-    // Sign In Fail
-    return back()->with('failed', "Sign in failed, please try again");
+    // Log In Fail
+    return back()->with('failed', "Sign In Failed, Please Try Again");
   }
 
   public function signOut(Request $request)
@@ -40,6 +40,6 @@ class AuthController extends Controller
     $request->session()->invalidate();
     $request->session()->regenerateToken();
 
-    return redirect('/')->with('success', 'You have been logged out!');
+    return redirect('/')->with('success', 'You Have Been Logged Out!');
   }
 }

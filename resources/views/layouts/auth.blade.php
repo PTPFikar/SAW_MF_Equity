@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="/assets/img/unbin.png">
     <title>{{ $title }}</title>
 
-    <!-- Bootstrap core CSS -->
+    <!-- Bootstrap Core CSS -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -25,18 +25,18 @@
       }
     </style>
 
-<!-- Custom styles for this template -->
+<!-- Custom Styles For This Template -->
     <link href="/assets/css/auth.css" rel="stylesheet">
   </head>
   <body class="text-center">
     @yield('content')
   </body>
 
-  {{-- Sweetalert2 --}}
+  {{-- SweetAlert2 --}}
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="/assets/js/script.js"></script>
 
-  {{-- alert from session --}}
+  {{-- Alert From Session --}}
   @if (session()->has('success'))
     <script>
       Swal.fire({

@@ -11,13 +11,25 @@
 
     <div class="mb-3">
       <label for="ISIN" class="form-label">ISIN</label>
-      <input type="text" class="form-control" id="ISIN" name="ISIN" value="{{ ($object->ISIN) }}" required>
+      <input type="text" class="form-control" id="ISIN" name="ISIN" value="{{ ($object->ISIN) }}">
     </div>
 
+    @error('ISIN')
+        <div class="invalid-feedback">
+          {{ $message }}
+        </div>
+      @enderror
+
     <div class="mb-3">
-      <label for="name" class="form-label">Product Name</label>
-      <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $object->productName) }}" required>
+      <label for="productName" class="form-label">Product Name</label>
+      <input type="text" class="form-control" id="productName" name="productName" value="{{ old('name', $object->productName) }}">
     </div>
+
+    @error('productName')
+        <div class="invalid-feedback">
+          {{ $message }}
+        </div>
+      @enderror
 
     <div class="mb-3">
       <label for="sharpRatio" class="form-label">Sharp Ratio</label>
@@ -28,28 +40,35 @@
           {{ $message }}
         </div>
       @enderror
-    </div>
 
     <div class="mb-3">
       <label for="AUM" class="form-label">AUM</label>
       <input type="number" class="form-control @error('AUM') is-invalid @enderror" id="AUM" name="AUM" value="{{ old('AUM', $object->AUM) }}" required>
 
-      @error('address')
+      @error('AUM')
         <div class="invalid-feedback">
           {{ $message }}
         </div>
       @enderror
-    </div>
 
     <div class="mb-3">
       <label for="deviden" class="form-label">Deviden</label>
-      <select class="form-select @error("deviden") is-invalid @enderror" id="deviden" name="deviden" required>
-        <option value="" disabled selected>Choose One</option>
-        <option value="2" {{ old('deviden', $object->deviden) === '2' ?  'selected' : '' }}>YES</option>
-        <option value="1" {{ old('deviden', $object->deviden) === '1' ?  'selected' : '' }}>NO</option>
+      <select class="form-select @error('deviden') is-invalid @enderror" id="deviden" name="deviden" required>
+        <option value="2" {{ old('deviden', $object->deviden) == '2' ? 'selected' : '' }}>YES</option>
+        <option value="1" {{ old('deviden', $object->deviden) == '1' ? 'selected' : '' }}>NO</option>
       </select>
 
       @error('deviden')
+        <div class="invalid-feedback">
+          {{ $message }}
+        </div>
+      @enderror
+
+    <div class="mb-3">
+      <label for="date" class="form-label">Date</label>
+      <input type="date" class="form-control @error('date') is-invalid @enderror" id="date" name="date" value="{{ old('date', $object->date) }}" required>
+
+      @error('date')
         <div class="invalid-feedback">
           {{ $message }}
         </div>

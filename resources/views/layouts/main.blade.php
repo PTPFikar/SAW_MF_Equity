@@ -6,10 +6,10 @@
     <link rel="shortcut icon" href="/assets/img/unbin.png">
     <title>{{ $title }}</title>
 
-    <!-- Bootstrap core CSS -->
+    <!-- Bootstrap Core CSS -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
+    <!-- Custom Styles For This Template -->
     <link href="/assets/css/dashboard.css" rel="stylesheet">
   </head>
   <body>
@@ -35,7 +35,7 @@
     <script src="/assets/js/script.js"></script>
     <script src="/assets/js/dashboard.js"></script>
 
-    {{-- alert from session --}}
+    {{-- Alert From Session --}}
     @if (session()->has('success'))
       <script>
         Swal.fire({

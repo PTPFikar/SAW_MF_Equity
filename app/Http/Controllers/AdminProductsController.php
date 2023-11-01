@@ -21,7 +21,7 @@ class AdminProductsController extends Controller
     ]);
   }
 
-  // Edit data products
+  // Edit Data Products
   public function edit($id)
   {
     $this->authorize('update', Products::class);
@@ -33,7 +33,7 @@ class AdminProductsController extends Controller
     ]);
   }
 
-  // Req update data products
+  // Req Update Data Products
   public function update(Request $request, $id)
   {
     $this->validate($request,[
@@ -43,16 +43,19 @@ class AdminProductsController extends Controller
      ]);
   
      $products = Products::find($id);
+     $products->ISIN = $request->ISIN;
+     $products->productName = $request->productName;
      $products->sharpRatio = $request->sharpRatio;
      $products->AUM = $request->AUM;
      $products->deviden = $request->deviden;
+     $products->date = $request->date;
      $products->save();
 
     return redirect('/dashboard/products')
-      ->with('success', 'The selected Products object has been updated!');
+      ->with('success', 'The Selected Products Object Has Been Updated!');
   }
 
-  // Delete data products
+  // Delete Data Products
   public function destroy($id)
   {
     $this->authorize('delete', Products::class);
@@ -60,7 +63,7 @@ class AdminProductsController extends Controller
     $products->delete();
 
     return redirect('/dashboard/products')
-      ->with('success', 'The selected Products object has been deleted!');
+      ->with('success', 'The Selected Products Object Has Been Deleted!');
   }
 
   public function export_excel(Request $request)

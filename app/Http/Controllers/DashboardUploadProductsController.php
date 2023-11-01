@@ -13,7 +13,7 @@ class DashboardUploadProductsController extends Controller
 {
     public function index()
     {
-        $products = Products::orderBy('date', 'asc')->orderBy('productName', 'asc')->paginate(10);
+        $products = Products::orderBy('updated_at', 'desc')->orderBy('created_at', 'desc')->paginate(10);
         $title = 'Upload Products';
         return view('dashboard.uploadproducts.index', compact('products','title'));
     }
@@ -26,16 +26,16 @@ class DashboardUploadProductsController extends Controller
         ]);
 
         $file = $request->file('file');
-
-        // Cek tipe file
+        
+        // Check File Type
         if (!$file->isValid()) {
-            return back()->with('failed', 'File yang diunggah bukan berkas CSV atau teks.');
+            return redirect()->back()->with('failed', 'The Uploaded File is Not a CSV or TXT File');
         }
 
         $csv = Reader::createFromPath($file->getPathname(), 'r');
         $csv->setHeaderOffset(0);
 
-        $errors = []; // Inisialisasi sebagai array kosong
+        $errors = []; 
 
         foreach ($csv as $row) {
             if (
@@ -47,7 +47,7 @@ class DashboardUploadProductsController extends Controller
                 !isset($row['Deviden']) ||
                 !isset($row['Date'])
             ) {
-                $errors[] = 'Data tidak sesuai: Struktur data dalam CSV tidak sesuai dengan yang diharapkan.';
+                $errors[] = 'Column Name Does Not Match';
                 break;
             }
 
@@ -59,25 +59,43 @@ class DashboardUploadProductsController extends Controller
             $dividend = $row['Deviden'];
             $date = $row['Date'];
 
-            // Check if required fields are empty
+            // Check if Required Fields are Empty
             if (empty($isin) || empty($productName) || empty($date)) {
-                $errors[] = 'Missing required field for a product.';
+                $errors[] = 'Missing Required Field For a Product';
                 break;
             }
 
-            // Check if standarDeviasi is not zero
+            // Check if Date is Incorrect Date Format
+            if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $date) || strtotime($date) === false) {
+                $errors[] = 'Incorrect Date Format. Must Be YYYY-MM-DD';
+                break;
+            }
+
+            // Check if expectReturn is Not Number
+            if ($expectReturn == 0) {
+                $errors[] = 'Expect Return Must Input a Number and Cannot Be Zero or Blank';
+                break;
+            }
+
+            // Check if standarDeviasi is Not Number
             if ($standarDeviasi == 0) {
-                $errors[] = 'Standar Deviasi should not be zero.';
+                $errors[] = 'Standar Deviasi Must Input a Number and Cannot Be Zero or Blank';
                 break;
             }
 
-            // Check if 'dividend' value is valid
+            // Check if aum is Not Zero
+            if ($aum == 0) {
+                $errors[] = 'AUM Must Input a Number and Cannot Be Zero or Blank';
+                break;
+            }            
+
+            // Check if 'dividend' Value Not Valid
             if ($dividend !== 'YES' && $dividend !== 'NO') {
-                $errors[] = 'Invalid value for Deviden. It should be "YES" or "NO.';
+                $errors[] = 'Invalid Value For Deviden. It Should Be YES or NO';
                 break;
             }
 
-            // Check products
+            // Check Products
             $product = Products::where('date', $date)->where('isin', $isin)->first();
 
             if (!$product) {
@@ -102,7 +120,7 @@ class DashboardUploadProductsController extends Controller
             $errorMessage = implode(' ', $errors);
             return back()->with('failed', $errorMessage);
         }
-        return redirect()->back()->with('success', 'CSV data imported successfully.');
+        return redirect()->back()->with('success', 'CSV Data Imported Successfully.');
     }
 
 }

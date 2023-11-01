@@ -22,26 +22,26 @@ class DashboardCalculationController extends Controller
 
     public function calculateSAW($date)
     {
-        // Get data products from Model Products
+        // Get Data Products From Model Products
         $alternatives = Products::where('date', $date)->get();
         
-        // Get data crierias from Model Criteria
+        // Get Data Crierias From Model Criteria
         $criterias = Criteria::all();
 
-        // Max Value each Criteria
+        // Max Value Each Criteria
         $maxValues = [];
 
         foreach ($criterias as $criteria) {
-            // If atribut is COST = minValues each Criteria
+            // If Attribute is COST = minValues Each Criteria
             if ($criteria->attribute === 'COST') {
                 $maxValues[$criteria->name] = $alternatives->min($criteria->name);
             } else {
-                // If atribut is BENEFIT = maxValues each Criteria
+                // If Attribute is BENEFIT = maxValues Each Criteria
                 $maxValues[$criteria->name] = $alternatives->max($criteria->name);
             }
         }
 
-        // Calculate the preference value
+        // Calculate The Preference Value
         $preferences = [];
 
         foreach ($alternatives as $alternative) {
@@ -49,11 +49,11 @@ class DashboardCalculationController extends Controller
 
             foreach ($criterias as $criteria) {
                 if ($maxValues[$criteria->name] != 0) {
-                    // If atribut is COST = minValues each Criteria
+                    // If Attribute is COST = minValues Each Criteria
                     if ($criteria->attribute === 'COST') {
                         $preferenceValue += $criteria->weight * ($maxValues[$criteria->name] / $alternative->{$criteria->name});
                     } else {
-                        // If atribut is BENEFIT = maxValues each Criteria
+                        // If Attribute is BENEFIT = maxValues Each Criteria
                         $preferenceValue += $criteria->weight * ($alternative->{$criteria->name} / $maxValues[$criteria->name]);
                     }
                 } else {
@@ -70,7 +70,7 @@ class DashboardCalculationController extends Controller
             ];
         }
 
-        // Sort alternatives by rank
+        // Sort Alternatives by Rank
         $alternatives = $alternatives->map(function ($alternative) use ($preferences) {
             $alternative->c1 = $preferences[$alternative->id]['C1'];
             $alternative->c2 = $preferences[$alternative->id]['C2'];
@@ -79,8 +79,9 @@ class DashboardCalculationController extends Controller
             return $alternative;
         })->sortByDesc('preferenceValue');
 
-        // Calculate the rank and store the result into an array
+        // Calculate The Rank and Store The Result Into an Array
         $results = [];
+        $normalization = [];
         $rank = 1;
 
         foreach ($alternatives as $alternative) {
@@ -97,30 +98,39 @@ class DashboardCalculationController extends Controller
 
             $rank++;
         }
-        return $results;
+        $data = [
+            'result' => $results,
+            'maxvalues' => $maxValues,
+            'preference' => $preferences,
+        ];
+    
+        return $data;
     }
     
-    public function calculate(Request $request) {
-        $input = $request->all();
-        $date = $input['date'];
-        $results = $this->calculateSAW($date);
+    public function calculate(Request $request)
+{
+    $input = $request->all();
+    $date = $input['date'];
+    $calculationData = $this->calculateSAW($date);
 
-        if (empty($results)) {
-            return back()->with('failed', 'Tidak Ada Data');
-        }
-
-        return view('dashboard.calculation.index', [
-            'title' => 'Calculation',
-            'results' => $results,
-            'date' => $date
-        ]);
+    if (empty($calculationData['result'])) {
+        return back()->with('failed', 'Tidak Ada Data');
     }
+
+    return view('dashboard.calculation.index', [
+        'title' => 'Calculation',
+        'results' => $calculationData['result'],
+        'date' => $date,
+        'maxvalues' => $calculationData['maxvalues'],
+        'preference' => $calculationData['preference'],
+    ]);
+}
 
     public function export_excel($date)
     {
         $results = $this->calculateSAW($date);
     
-        // Convert array to a collection
+        // Convert Array To a Collection
         $resultsCollection =  collect($results);
         return Excel::download(new ResultExport($resultsCollection), 'result.xlsx');
     }

@@ -6,10 +6,10 @@
     <link rel="shortcut icon" href="/assets/img/unbin.png">
     <title><?php echo e($title); ?></title>
 
-    <!-- Bootstrap core CSS -->
+    <!-- Bootstrap Core CSS -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
+    <!-- Custom Styles For This Template -->
     <link href="/assets/css/dashboard.css" rel="stylesheet">
   </head>
   <body>

@@ -25,20 +25,20 @@ class DashboardProfileController extends Controller
 
     if ($validate['oldPassword'] ?? false) {
 
-      //check password
+      //Check Password
       if (Hash::check($validate['oldPassword'], $user->password)) {
         
-        // password matching
+        // Password Matching
         $newPass = Hash::make($validate['password']);
 
         User::where('id', $user->id)
           ->update(['password' => $newPass]);
 
         return redirect('/dashboard/profile')
-          ->with('success', "Your password has been updated!");
+          ->with('success', "Your Password Has Been Updated!");
       } else {
         return redirect('/dashboard/profile')
-          ->with('failed', "Your old password is invalid!");
+          ->with('failed', "Your Old Password is Invalid!");
       }
     }
 
@@ -46,6 +46,6 @@ class DashboardProfileController extends Controller
       ->update($validate);
 
     return redirect('/dashboard/profile')
-      ->with('success', "Your profile has been updated!");
+      ->with('success', "Your Profile Has Been Updated!");
   }
 }

@@ -4,18 +4,12 @@
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Upload Products</h1>
   </div>
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-        <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
-         + Upload File
-         </button>
+        <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <span data-feather="upload"></span> Upload File
+        </button>
          <a href="{{ asset('assets/example/Data_Product.csv') }}" download>
             <button type="submit" class="btn btn-warning mb-3">
-            Download Sample
+                <span data-feather="download"></span> Download Sample
             </button>
          </a>
 

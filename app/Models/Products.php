@@ -16,6 +16,8 @@ class Products extends Model
     'sharpRatio',
     'AUM',
     'deviden',
-    'date'
+    'date',
+    'created_at',
+    'updated_at'
   ];
 }

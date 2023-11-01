@@ -47,17 +47,19 @@
           @endforeach
         @else
           <tr>
-            <td colspan="7" class="text-danger text-center p-4">
-              <h4>You haven't create any products objects yet</h4>
+            <td colspan="7" class="text-danger text-center p-3">
+              <h4>You Haven't Create Any Products Objects Yet</h4>
             </td>
           </tr>
         @endif
       </tbody>
     </table>
+    <b><i><font size="2">*Nilai Deviden "YES" bukan berarti akan selalu mendapatkan keuntungan</font></i></b>
+    <br>
     {{ $objects->links() }}
       <a href="products/export_excel">
-        <button type="submit" class="btn btn-success mb-3">
-        Download
+        <button type="submit" class="btn btn-warning mb-3">
+          <span data-feather="download"></span> Download
         </button>
       </a>
   </div>

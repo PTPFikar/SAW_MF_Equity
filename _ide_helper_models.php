@@ -16,6 +16,7 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $name
+ * @property string $criteriaName
  * @property string $attribute
  * @property int $weight
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -25,6 +26,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Criteria query()
  * @method static \Illuminate\Database\Eloquent\Builder|Criteria whereAttribute($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Criteria whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Criteria whereCriteriaName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Criteria whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Criteria whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Criteria whereUpdatedAt($value)
