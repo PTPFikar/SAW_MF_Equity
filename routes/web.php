@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\DashController;
 use App\Http\Controllers\AdminCriteriaController;
 use App\Http\Controllers\AdminProductsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardCalculationController;
+use App\Http\Controllers\DashboardReportController;
 use App\Http\Controllers\DashboardProfileController;
 use App\Http\Controllers\DashboardUploadProductsController;
+use App\Http\Controllers\AdminRiskController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,20 +29,15 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
   Route::post('/signout', [AuthController::class, 'signOut']);
-
-  Route::get('/dashboard', function () {
-    return view('dashboard.index', [
-      'title' => 'Dashboard'
-    ]);
-  });
+ 
+  Route::get('/dashboard', [DashController::class, 'index']);
 
   Route::get('dashboard/profile', [DashboardProfileController::class, 'index']);
   Route::put('dashboard/profile/{user}', [DashboardProfileController::class, 'update']);
 
-  Route::get('dashboard/calculation', [DashboardCalculationController::class, 'index'])->name('dashboard.calculation');
-  Route::post('dashboard/calculation', [DashboardCalculationController::class, 'calculate'])->name('calculateSAW');
-  Route::post('dashboard/calculation/export_excel/{date}', [DashboardCalculationController::class, 'export_excel'])->name('calculate.exports');
-
+  Route::get('dashboard/risks', [AdminRiskController::class, 'index']);
+  Route::get('dashboard/risks/edit/{id}', [AdminRiskController::class, 'edit'])->name('risk.edit');
+  Route::put('dashboard/risks/update/{id}', [AdminRiskController::class, 'update'])->name('risk.update');
 
   Route::get('dashboard/upload-products', [DashboardUploadProductsController::class,'index']);
   Route::post('dashboard/upload-products', [DashboardUploadProductsController::class,'upload_csv_file'])->name('upload_csv');
@@ -49,6 +47,16 @@ Route::middleware('auth')->group(function () {
   Route::put('dashboard/products/update/{id}', [AdminProductsController::class, 'update'])->name('product.update');
   Route::delete('dashboard/products/{id}', [AdminProductsController::class, 'destroy'])->name('product.delete');
   Route::get('dashboard/products/export_excel', [AdminProductsController::class, 'export_excel']);
+
+  Route::get('dashboard/calculation', [DashboardCalculationController::class, 'index'])->name('dashboard.calculation');
+  Route::post('dashboard/calculation', [DashboardCalculationController::class, 'calculate'])->name('calculateSAW');
+  Route::post('dashboard/calculation/export_excel/{date}', [DashboardCalculationController::class, 'export_excel'])->name('calculate.exports');
+
+  Route::get('dashboard/report', [DashboardReportController::class, 'index'])->name('dashboard.report');
+  Route::post('dashboard/report', [DashboardReportController::class, 'report'])->name('reportSAW');
+  Route::post('dashboard/report/export_excel/{date}', [DashboardReportController::class, 'export_excel'])->name('report.exports');
+
+
 
   Route::resources([
     'dashboard/criterias'     => AdminCriteriaController::class

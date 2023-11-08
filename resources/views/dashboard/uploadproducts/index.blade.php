@@ -26,7 +26,9 @@
                <tr>
                <th scope="col">ISIN</th>
                <th scope="col">Product Name</th>
-               <th scope="col">Sharp Ratio</th>
+               <th scope="col">Expect Return 1 Year</th>
+               <th scope="col">Standard Deviation 1 Year</th>
+               <th scope="col">Sharpe Ratio</th>
                <th scope="col">AUM</th>
                <th scope="col">Deviden</th>
                <th scope="col">Date</th>
@@ -37,7 +39,9 @@
                 <tr>
                     <td>{{$product->ISIN}}</td>
                     <td>{{$product->productName}}</td>
-                    <td>{{$product->sharpRatio}}</td>
+                    <td>{{$product->expectReturn}}</td>
+                    <td>{{$product->standardDeviation}}</td>
+                    <td>{{$product->sharpeRatio}}</td>
                     <td>{{$product->AUM}}</td>
                     <td>{{$product->deviden == 2 ? 'YES': 'NO'}}</td>
                     <td>{{$product->date}}</td>

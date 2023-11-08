@@ -14,20 +14,18 @@
             </div>
             <div class="col-lg-2">
                 <button type="submit" class="btn btn-primary">
-                    <span data-feather="settings"></span> Calculate
+                    <i class="bi bi-gear-fill"></i> Calculate
                 </button>
             </div>
         </div>
     </form>
-       <!-- Display Data if Available // Raw Data
-    RAW data itu data apa adanya dari Tabel Product, untuk yg deviden jika YES = 2 jika NO = 1
-    -->
+       <!-- Display Data if Available // Raw Data -->
        @if(isset($rawData))
-       <div class="table-responsive col-lg-10 text-center">
+       <div class="table-responsive col-lg-12 text-center">
            <br>
            <h1 class="h2">Raw Data</h1>
        </div>
-       <div class="table-responsive col-lg-10">
+       <div class="table-responsive col-lg-12">
            <table class="table table-striped">
                <thead>
                    <tr>
@@ -43,24 +41,22 @@
                    <tr>
                        <td class="text-center">{{ $data['ISIN'] }}</td>
                        <td>{{ $data['productName'] }}</td>
-                       <td class="text-center">{{ number_format($data['C1'], 2) }}</td>
+                       <td class="text-center">{{ number_format($data['C1'], 4) }}</td>
                        <td class="text-center">{{ number_format($data['C2'], 2) }}</td>
-                       <td class="text-center">{{ number_format($data['C3'], 2) }}</td>
+                       <td class="text-center">{{ ($data['C3']) }}</td>
                    </tr>
                    @endforeach
                </tbody>
            </table>
        </div>
        @endif
-    <!-- Display Data if Available // Normalization 
-    Normalisasi itu adalah nilai product yang dibagi dengan nilai MaxValue per kriteria karena BENEFIT semua
-    -->
+    <!-- Display Data if Available // Normalization -->
     @if(isset($normalizedData))
-    <div class="table-responsive col-lg-10 text-center">
+    <div class="table-responsive col-lg-12 text-center">
         <br>
         <h1 class="h2">Normalization Data</h1>
     </div>
-    <div class="table-responsive col-lg-10">
+    <div class="table-responsive col-lg-12">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -76,8 +72,8 @@
                 <tr>
                     <td class="text-center">{{ $n_data['ISIN'] }}</td>
                     <td>{{ $n_data['productName'] }}</td>
-                    <td class="text-center">{{ number_format($n_data['C1'], 2) }}</td>
-                    <td class="text-center">{{ number_format($n_data['C2'], 2) }}</td>
+                    <td class="text-center">{{ number_format($n_data['C1'], 4) }}</td>
+                    <td class="text-center">{{ number_format($n_data['C2'], 4) }}</td>
                     <td class="text-center">{{ number_format($n_data['C3'], 2) }}</td>
                 </tr>
                 @endforeach
@@ -87,11 +83,11 @@
     @endif
     <!-- Display Preferences Data // Preferences -->
     @if(isset($results))
-    <div class="table-responsive col-lg-10 text-center">
+    <div class="table-responsive col-lg-12 text-center">
         <br>
         <h1 class="h2">Preferences Data</h1>
     </div>
-    <div class="table-responsive col-lg-10">
+    <div class="table-responsive col-lg-12">
         <table class="table table-striped">
             <thead>
                 <tr>

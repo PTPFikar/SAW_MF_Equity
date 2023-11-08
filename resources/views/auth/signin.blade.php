@@ -2,7 +2,7 @@
 
 @section('content')
   <main class="form-signin">
-    <img class="mb-4" src="/assets/img/unbin.png" alt="UNBIN" width="171" height="168">
+    <img class="mb-4" src="/assets/img/logo_saw.png" alt="SAW" width="300" height="196">
     <h1 class="h3 mb-3 fw-normal">Log In</h1>
 
     <form action="/" method="POST">

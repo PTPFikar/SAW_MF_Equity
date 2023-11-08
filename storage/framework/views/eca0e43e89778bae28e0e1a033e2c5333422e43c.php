@@ -13,17 +13,23 @@
           Admin
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link <?php echo e(request()->is('dashboard/calculation*') ? 'active' : ''); ?>" href="/dashboard/calculation">
-          <span data-feather="clipboard"></span>
-          Calculation
-        </a>
-      </li>
     </ul>
 
     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('admin')): ?>
       <hr>
       <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link <?php echo e(request()->is('dashboard/criterias*') ? 'active' : ''); ?>" href="/dashboard/criterias">
+            <i class="bi bi-flag-fill"></i>
+            Criterias
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link <?php echo e(request()->is('dashboard/risks*') ? 'active' : ''); ?>" href="/dashboard/risks">
+            <i class="bi bi-flag"></i>
+            Risk Free
+          </a>
+        </li>
         <li class="nav-item">
           <a class="nav-link <?php echo e(request()->is('dashboard/upload-products*') ? 'active' : ''); ?>" href="/dashboard/upload-products">
             <span data-feather="upload"></span>
@@ -32,14 +38,20 @@
         </li>
         <li class="nav-item">
           <a class="nav-link <?php echo e(request()->is('dashboard/products*') ? 'active' : ''); ?>" href="/dashboard/products">
-            <span data-feather="database"></span>
+            <span data-feather="archive"></span>
             Products
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link <?php echo e(request()->is('dashboard/criterias*') ? 'active' : ''); ?>" href="/dashboard/criterias">
-            <span data-feather="flag"></span>
-            Criterias
+          <a class="nav-link <?php echo e(request()->is('dashboard/calculation*') ? 'active' : ''); ?>" href="/dashboard/calculation">
+            <i class="bi bi-clipboard2-data-fill"></i>
+            Result
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link <?php echo e(request()->is('dashboard/report*') ? 'active' : ''); ?>" href="/dashboard/report">
+            <i class="bi bi-file-earmark-bar-graph-fill"></i>
+            Report
           </a>
         </li>
       </ul>

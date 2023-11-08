@@ -8,6 +8,37 @@ body {
     vertical-align: text-bottom;
 }
 
+.card-data {
+    border: solid 1px;
+    padding: 20px 50px;
+    background-color: teal;
+    color: #fff;
+}
+
+.card-data.products {
+    background-color: teal;
+}
+
+.card-data.risks {
+    background-color: rgb(195, 71, 27);
+}
+
+.card-data i {
+    font-size: 80px;
+}
+
+.card-desc{
+    font-size: 30px;
+}
+
+.card-count{
+    font-size: 30px;
+}
+
+.card-date{
+    font-size: 15px;
+}
+
 /*
  * Sidebar
  */
@@ -73,8 +104,12 @@ body {
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
     font-size: 1rem;
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: rgb(105, 61, 164);
     box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.25);
+}
+
+.bg-purple {
+    background-color: rgb(105, 61, 164);
 }
 
 .navbar .navbar-toggler {
@@ -90,7 +125,7 @@ body {
 
 .form-control-dark {
     color: #fff;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgb(105, 61, 164);
     border-color: rgba(255, 255, 255, 0.1);
 }
 

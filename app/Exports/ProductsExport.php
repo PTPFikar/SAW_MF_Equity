@@ -5,27 +5,36 @@ namespace App\Exports;
 use App\Models\Products;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Nette\Utils\Strings;
-use PhpParser\Node\Expr\Cast\String_;
+use Maatwebsite\Excel\Concerns\Exportable;
 
 class ProductsExport implements FromCollection, WithHeadings
 {
-    // Head Column in Excel
+    use Exportable;
+
     public function headings(): array
     {
         return [
             'ISIN',
             'Product Name',
-            'Sharp Ratio',
+            'Expect Return 1 Year',
+            'Standard Deviation 1 Year',
+            'Sharpe Ratio',
             'AUM',
             'Deviden',
-            'Date'
+            'Date',
         ];
     }
 
-    // Result Export
     public function collection()
     {
-        return Products::select('ISIN', 'productName', 'sharpRatio', 'AUM', 'deviden', 'date')->get();
+        $products = Products::select('ISIN', 'productName', 'expectReturn', 'standardDeviation', 'sharpeRatio', 'AUM', 'deviden', 'date')->get();
+
+        // Modify the 'Deviden' column values
+        $products->transform(function ($product) {
+            $product->deviden = $product->deviden == 2 ? 'YES' : 'NO';
+            return $product;
+        });
+
+        return $products;
     }
 }

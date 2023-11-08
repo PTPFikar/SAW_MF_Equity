@@ -4,9 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Criteria;
+use App\Models\Risks;
 use Illuminate\Database\Seeder;
-use DB;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,10 +25,14 @@ class DatabaseSeeder extends Seeder
     ]);
 
     $criterias = [
-      ['id' => 1, 'name' => 'sharpRatio', 'criteriaName' => 'Sharp Ratio', 'attribute' => 'BENEFIT', 'weight' => '25'],
+      ['id' => 1, 'name' => 'sharpeRatio', 'criteriaName' => 'sharpe Ratio', 'attribute' => 'BENEFIT', 'weight' => '25'],
       ['id' => 2, 'name' => 'AUM', 'criteriaName' => 'AUM', 'attribute' => 'BENEFIT', 'weight' => '50'],
       ['id' => 3, 'name' => 'deviden', 'criteriaName' => 'Deviden', 'attribute' => 'BENEFIT', 'weight' => '25'],
     ];
     Criteria::insert($criterias);
+
+    Risks::create([
+      'risk'     => '0.03615'
+    ]);
   }
 }

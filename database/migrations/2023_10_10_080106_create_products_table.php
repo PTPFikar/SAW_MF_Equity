@@ -17,7 +17,9 @@ return new class extends Migration
       $table->id();
       $table->string('ISIN');
       $table->string('productName');
-      $table->decimal('sharpRatio', 10, 4);
+      $table->decimal('expectReturn', 10, 4);
+      $table->decimal('standardDeviation', 10, 4);
+      $table->decimal('sharpeRatio', 10, 4);
       $table->bigInteger('AUM');
       $table->boolean('deviden');
       $table->date('date');

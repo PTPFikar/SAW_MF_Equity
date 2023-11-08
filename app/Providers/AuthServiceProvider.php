@@ -2,13 +2,13 @@
 
 namespace App\Providers;
 
-use App\Models\CriteriaAnalysis;
 use App\Models\User;
 use App\Models\Products;
-use App\Policies\CriteriaAnalysisPolicy;
+use App\Models\Risks;
 use App\Policies\CriteriaPolicy;
 use Illuminate\Support\Facades\Gate;
 use App\Policies\ProductsPolicy;
+use App\Policies\RisksPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -22,8 +22,8 @@ class AuthServiceProvider extends ServiceProvider
   protected $policies = [
     Products::class => ProductsPolicy::class,
     Criteria::class => CriteriaPolicy::class,
+    Risks::class => RisksPolicy::class,
     User::class => UserPolicy::class,
-    CriteriaAnalysis::class => CriteriaAnalysisPolicy::class
   ];
 
   /**

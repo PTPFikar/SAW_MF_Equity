@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\DB;
-use App\Http\Requests\Products\ProductsUpdateRequest;
 use App\Models\Products;
 use Illuminate\Http\Request;
 use App\Exports\ProductsExport;
+use App\Models\Risks;
 use Maatwebsite\Excel\Facades\Excel;
 
 class AdminProductsController extends Controller
@@ -26,10 +25,12 @@ class AdminProductsController extends Controller
   {
     $this->authorize('update', Products::class);
     $products = Products::select('*')->where('id', $id)->first();
+    $risk = Risks::find(1);
 
     return view('dashboard.products.edit', [
       'title'  => "Edit $products->id",
-      'object' => $products
+      'object' => $products,
+      'risk' => $risk ? $risk->risk : 0.5500,
     ]);
   }
 
@@ -37,15 +38,17 @@ class AdminProductsController extends Controller
   public function update(Request $request, $id)
   {
     $this->validate($request,[
-      'sharpRatio'  => 'required',
+      'sharpeRatio'  => 'required',
       'AUM'         => 'required',
       'deviden'     => 'required',
      ]);
-  
+
      $products = Products::find($id);
      $products->ISIN = $request->ISIN;
      $products->productName = $request->productName;
-     $products->sharpRatio = $request->sharpRatio;
+     $products->expectReturn = $request->expectReturn;
+     $products->standardDeviation = $request->standardDeviation;
+     $products->sharpeRatio = $request->sharpeRatio;
      $products->AUM = $request->AUM;
      $products->deviden = $request->deviden;
      $products->date = $request->date;
@@ -67,7 +70,7 @@ class AdminProductsController extends Controller
   }
 
   public function export_excel(Request $request)
-	{
-		return Excel::download(new ProductsExport($request), 'products.xlsx');
-	}
+  {
+      return Excel::download(new ProductsExport($request), 'products.xlsx');
+  }
 }

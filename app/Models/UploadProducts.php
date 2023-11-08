@@ -9,12 +9,16 @@ class UploadProducts extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'ISIN',
-        'productName',
-        'expectReturn',
-        'standarDeviasi',
-        'AUM',
-        'deviden',
-        'date'
+      'id',
+      'ISIN',
+      'productName',
+      'expectReturn',
+      'standardDeviation',
+      'sharpeRatio',
+      'AUM',
+      'deviden',
+      'date',
+      'created_at',
+      'updated_at'
       ];
 }

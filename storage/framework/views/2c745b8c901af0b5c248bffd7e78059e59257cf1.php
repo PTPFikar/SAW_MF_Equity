@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="/assets/img/unbin.png">
+    <link rel="shortcut icon" href="/assets/img/logo_saw.png">
     <title><?php echo e($title); ?></title>
 
     <!-- Bootstrap Core CSS -->

@@ -5,14 +5,16 @@
     <h1 class="h2">Products</h1>
   </div>
 
-  <div class="table-responsive col-lg-10">
+  <div class="table-responsive col-lg-12">
     <table class="table table-striped">
       <thead>
         <tr>
           <th scope="col" class="text-center">#</th>
           <th scope="col" class="text-center">ISIN</th>
           <th scope="col" class="text-center">Product Name</th>
-          <th scope="col" class="text-center">Sharp Ratio</th>
+          <th scope="col" class="text-center">Expect Return 1 Year</th>
+          <th scope="col" class="text-center">Standard Deviation 1 Year</th>
+          <th scope="col" class="text-center">Sharpe Ratio</th>
           <th scope="col" class="text-center">AUM</th>
           <th scope="col" class="text-center">Deviden</th>
           <th scope="col" class="text-center">Date</th>
@@ -26,7 +28,9 @@
               <td class="text-center">{{ $loop->iteration }}</td>
               <td class="text-center">{{ $object->ISIN }}</td>
               <td class>{{ $object->productName }}</td>
-              <td class="text-center">{{ $object->sharpRatio }}</td>
+              <td class="text-center">{{ $object->expectReturn }}</td>
+              <td class="text-center">{{ $object->standardDeviation }}</td>
+              <td class="text-center">{{ $object->sharpeRatio }}</td>
               <td class="text-center">{{ $object->AUM }}</td>
               <td class="text-center">{{ $object->deviden == 2 ? 'YES': 'NO' }}</td>
               <td class="text-center">{{ $object->date }}</td>

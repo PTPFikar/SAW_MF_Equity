@@ -42,7 +42,9 @@ namespace App\Models{
  * @property int $id
  * @property string $ISIN
  * @property string $productName
- * @property string $sharpRatio
+ * @property string $expectReturn
+ * @property string $standardDeviation
+ * @property string $sharpeRatio
  * @property int $AUM
  * @property int $deviden
  * @property string|null $date
@@ -55,10 +57,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereDeviden($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Products whereExpectReturn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereISIN($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereProductName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Products whereSharpRatio($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Products whereSharpeRatio($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Products whereStandardDeviation($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Products whereUpdatedAt($value)
  */
 	class Products extends \Eloquent {}
@@ -66,13 +70,21 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Result
+ * App\Models\Risks
  *
- * @method static \Illuminate\Database\Eloquent\Builder|Result newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Result newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Result query()
+ * @property int $id
+ * @property string $risk
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Risks newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Risks newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Risks query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Risks whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Risks whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Risks whereRisk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Risks whereUpdatedAt($value)
  */
-	class Result extends \Eloquent {}
+	class Risks extends \Eloquent {}
 }
 
 namespace App\Models{

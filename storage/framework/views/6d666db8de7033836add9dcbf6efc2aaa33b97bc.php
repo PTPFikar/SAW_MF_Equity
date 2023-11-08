@@ -14,18 +14,18 @@
             </div>
             <div class="col-lg-2">
                 <button type="submit" class="btn btn-primary">
-                    <span data-feather="settings"></span> Calculate
+                    <i class="bi bi-gear-fill"></i> Calculate
                 </button>
             </div>
         </div>
     </form>
-       <!-- Display Data if Available Raw Data-->
-       <?php if(isset($results)): ?>
-       <div class="table-responsive col-lg-10 text-center">
+       <!-- Display Data if Available // Raw Data -->
+       <?php if(isset($rawData)): ?>
+       <div class="table-responsive col-lg-12 text-center">
            <br>
            <h1 class="h2">Raw Data</h1>
        </div>
-       <div class="table-responsive col-lg-10">
+       <div class="table-responsive col-lg-12">
            <table class="table table-striped">
                <thead>
                    <tr>
@@ -37,13 +37,13 @@
                    </tr>
                </thead>
                <tbody>
-                   <?php $__currentLoopData = $results; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $result): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                   <?php $__currentLoopData = $rawData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                    <tr>
-                       <td class="text-center"><?php echo e($result['ISIN']); ?></td>
-                       <td><?php echo e($result['productName']); ?></td>
-                       <td class="text-center"><?php echo e(number_format($result['C1'], 2)); ?></td>
-                       <td class="text-center"><?php echo e(number_format($result['C2'], 2)); ?></td>
-                       <td class="text-center"><?php echo e(number_format($result['C3'], 2)); ?></td>
+                       <td class="text-center"><?php echo e($data['ISIN']); ?></td>
+                       <td><?php echo e($data['productName']); ?></td>
+                       <td class="text-center"><?php echo e(number_format($data['C1'], 4)); ?></td>
+                       <td class="text-center"><?php echo e(number_format($data['C2'], 2)); ?></td>
+                       <td class="text-center"><?php echo e(($data['C3'])); ?></td>
                    </tr>
                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                </tbody>
@@ -51,12 +51,12 @@
        </div>
        <?php endif; ?>
     <!-- Display Data if Available // Normalization -->
-    <?php if(isset($results)): ?>
-    <div class="table-responsive col-lg-10 text-center">
+    <?php if(isset($normalizedData)): ?>
+    <div class="table-responsive col-lg-12 text-center">
         <br>
         <h1 class="h2">Normalization Data</h1>
     </div>
-    <div class="table-responsive col-lg-10">
+    <div class="table-responsive col-lg-12">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -68,13 +68,13 @@
                 </tr>
             </thead>
             <tbody>
-                <?php $__currentLoopData = $results; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $result): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php $__currentLoopData = $normalizedData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $n_data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
-                    <td class="text-center"><?php echo e($result['ISIN']); ?></td>
-                    <td><?php echo e($result['productName']); ?></td>
-                    <td class="text-center"><?php echo e(number_format($result['C1'], 2)); ?></td>
-                    <td class="text-center"><?php echo e(number_format($result['C2'], 2)); ?></td>
-                    <td class="text-center"><?php echo e(number_format($result['C3'], 2)); ?></td>
+                    <td class="text-center"><?php echo e($n_data['ISIN']); ?></td>
+                    <td><?php echo e($n_data['productName']); ?></td>
+                    <td class="text-center"><?php echo e(number_format($n_data['C1'], 4)); ?></td>
+                    <td class="text-center"><?php echo e(number_format($n_data['C2'], 4)); ?></td>
+                    <td class="text-center"><?php echo e(number_format($n_data['C3'], 2)); ?></td>
                 </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </tbody>
@@ -83,11 +83,11 @@
     <?php endif; ?>
     <!-- Display Preferences Data // Preferences -->
     <?php if(isset($results)): ?>
-    <div class="table-responsive col-lg-10 text-center">
+    <div class="table-responsive col-lg-12 text-center">
         <br>
         <h1 class="h2">Preferences Data</h1>
     </div>
-    <div class="table-responsive col-lg-10">
+    <div class="table-responsive col-lg-12">
         <table class="table table-striped">
             <thead>
                 <tr>

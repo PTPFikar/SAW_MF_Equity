@@ -3,13 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="/assets/img/unbin.png">
+    <link rel="shortcut icon" href="/assets/img/logo_saw.png">
     <title><?php echo e($title); ?></title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom Styles For This Template -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link href="/assets/css/dashboard.css" rel="stylesheet">
   </head>
   <body>

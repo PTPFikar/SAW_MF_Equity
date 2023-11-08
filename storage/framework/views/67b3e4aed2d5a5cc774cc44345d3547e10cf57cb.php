@@ -27,7 +27,9 @@
                <tr>
                <th scope="col">ISIN</th>
                <th scope="col">Product Name</th>
-               <th scope="col">Sharp Ratio</th>
+               <th scope="col">Expect Return 1 Year</th>
+               <th scope="col">Standard Deviation 1 Year</th>
+               <th scope="col">Sharpe Ratio</th>
                <th scope="col">AUM</th>
                <th scope="col">Deviden</th>
                <th scope="col">Date</th>
@@ -38,7 +40,9 @@
                 <tr>
                     <td><?php echo e($product->ISIN); ?></td>
                     <td><?php echo e($product->productName); ?></td>
-                    <td><?php echo e($product->sharpRatio); ?></td>
+                    <td><?php echo e($product->expectReturn); ?></td>
+                    <td><?php echo e($product->standardDeviation); ?></td>
+                    <td><?php echo e($product->sharpeRatio); ?></td>
                     <td><?php echo e($product->AUM); ?></td>
                     <td><?php echo e($product->deviden == 2 ? 'YES': 'NO'); ?></td>
                     <td><?php echo e($product->date); ?></td>

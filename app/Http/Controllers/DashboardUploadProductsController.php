@@ -4,16 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Products;
+use App\Models\Risks;
 use App\Jobs\ItemCSVUploadJob;
 use Illuminate\Support\Facades\Storage;
 use League\Csv\Reader;
-use Ramsey\Uuid\Type\Decimal;
 
 class DashboardUploadProductsController extends Controller
 {
     public function index()
     {
-        $products = Products::orderBy('updated_at', 'desc')->orderBy('created_at', 'desc')->paginate(10);
+        $products = Products::orderBy('date', 'asc')->orderBy('productName', 'asc')->paginate(10);
         $title = 'Upload Products';
         return view('dashboard.uploadproducts.index', compact('products','title'));
     }
@@ -42,7 +42,7 @@ class DashboardUploadProductsController extends Controller
                 !isset($row['ISIN']) ||
                 !isset($row['Product Name']) ||
                 !isset($row['Expect Return 1 Year']) ||
-                !isset($row['Standar Deviasi']) ||
+                !isset($row['Standard Deviation 1 Year']) ||
                 !isset($row['Asset Under Management (AUM)']) ||
                 !isset($row['Deviden']) ||
                 !isset($row['Date'])
@@ -54,7 +54,7 @@ class DashboardUploadProductsController extends Controller
             $isin = $row['ISIN'];
             $productName = $row['Product Name'];
             $expectReturn = floatval($row['Expect Return 1 Year']);
-            $standarDeviasi = floatval($row['Standar Deviasi']);
+            $standardDeviation = floatval($row['Standard Deviation 1 Year']);
             $aum = floatval($row['Asset Under Management (AUM)']);
             $dividend = $row['Deviden'];
             $date = $row['Date'];
@@ -78,7 +78,7 @@ class DashboardUploadProductsController extends Controller
             }
 
             // Check if standarDeviasi is Not Number
-            if ($standarDeviasi == 0) {
+            if ($standardDeviation == 0) {
                 $errors[] = 'Standar Deviasi Must Input a Number and Cannot Be Zero or Blank';
                 break;
             }
@@ -97,18 +97,23 @@ class DashboardUploadProductsController extends Controller
 
             // Check Products
             $product = Products::where('date', $date)->where('isin', $isin)->first();
+            $risk = Risks::find(1); 
 
             if (!$product) {
                 $product = new Products();
                 $product->ISIN = $isin;
                 $product->productName = $productName;
-                $product->sharpRatio = ($standarDeviasi != 0) ? $expectReturn / $standarDeviasi : 0;
+                $product->expectReturn = $expectReturn;
+                $product->standardDeviation = $standardDeviation;
+                $product->sharpeRatio = ($standardDeviation != 0) ? ($expectReturn-$risk->risk) / $standardDeviation : 0;
                 $product->AUM = $aum;
                 $product->deviden = ($dividend === 'YES') ? 2 : 1;
                 $product->date = $date;
                 $product->save();
             } else {
-                $product->sharpRatio = ($standarDeviasi != 0) ? $expectReturn / $standarDeviasi : 0;
+                $product->expectReturn = $expectReturn;
+                $product->standardDeviation = $standardDeviation;
+                $product->sharpeRatio = ($standardDeviation != 0) ? ($expectReturn-$risk->risk) / $standardDeviation : 0;
                 $product->AUM = $aum;
                 $product->deviden = ($dividend === 'YES') ? 2 : 1;
                 $product->date = $date;

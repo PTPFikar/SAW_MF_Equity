@@ -63,7 +63,7 @@ class DashboardCalculationController extends Controller
             }
 
             $preferences[$alternative->id] = [
-                'C1' => ($alternative->sharpRatio / $maxValues['sharpRatio']) * $criterias->where('name', 'sharpRatio')->first()->weight,
+                'C1' => ($alternative->sharpeRatio / $maxValues['sharpeRatio']) * $criterias->where('name', 'sharpeRatio')->first()->weight,
                 'C2' => ($alternative->AUM / $maxValues['AUM']) * $criterias->where('name', 'AUM')->first()->weight,
                 'C3' => ($alternative->deviden / $maxValues['deviden']) * $criterias->where('name', 'deviden')->first()->weight,
                 'ResultTotal' => $preferenceValue,
@@ -102,36 +102,20 @@ class DashboardCalculationController extends Controller
 
     }
     
-    // public function calculate(Request $request) {
-    //     $input = $request->all();
-    //     $date = $input['date'];
-    //     $results = $this->calculateSAW($date);
-
-    //     if (empty($results)) {
-    //         return back()->with('failed', 'Tidak Ada Data');
-    //     }
-
-    //     return view('dashboard.calculation.index', [
-    //         'title' => 'Calculation',
-    //         'results' => $results,
-    //         'date' => $date
-    //     ]);
-    // }
-
     public function calculate(Request $request) {
         $input = $request->all();
         $date = $input['date'];
         $calculationResult = $this->calculateSAW($date);
     
         if (empty($calculationResult['results'])) {
-            return back()->with('failed', 'Tidak Ada Data');
+            return back()->with('failed', 'Data Not Found');
         }
     
         $maxValues = $calculationResult['maxValues'];
         $criterias = $calculationResult['criterias'];
         $results = $calculationResult['results'];
     
-        // 1. Raw Data Produk / Alternatif
+        // Raw Data or Alternatif
         $rawData = Products::where('date', $date)->get();
         $rawDataWithDetails = [];
 
@@ -140,37 +124,38 @@ class DashboardCalculationController extends Controller
                 'ID' => $alternative->id,
                 'ISIN' => $alternative->ISIN,
                 'productName' => $alternative->productName,
-                'C1' => $alternative->sharpRatio,
+                'C1' => $alternative->sharpeRatio,
                 'C2' => $alternative->AUM,
                 'C3' => $alternative->deviden,
             ];
         }
-        // 2. Normalisasi yang sudah dibagi dengan nilai maksimum untuk setiap alternatif
+
+        // Normalization Data
         $normalizedData = [];
         foreach ($rawData as $alternative) {
             $normalizedData[$alternative->id] = [
                 'ID' => $alternative->id,
                 'ISIN' => $alternative->ISIN,
                 'productName' => $alternative->productName,
-                'C1' => $alternative->sharpRatio / $maxValues['sharpRatio'],
+                'C1' => $alternative->sharpeRatio / $maxValues['sharpeRatio'],
                 'C2' => $alternative->AUM / $maxValues['AUM'],
                 'C3' => $alternative->deviden / $maxValues['deviden'],
             ];
         }
 
-        // 3. Preferensi / Nilai Hasil yang sudah dikalikan dengan bobot
+        // Preferences Data
         $weightedData = [];
         foreach ($rawData as $alternative) {
             $weightedData[$alternative->id] = [
                 'ID' => $alternative->id,
                 'ISIN' => $alternative->ISIN,
                 'productName' => $alternative->productName,
-                'C1' => $normalizedData[$alternative->id]['C1'] * $criterias->where('name', 'sharpRatio')->first()->weight,
+                'C1' => $normalizedData[$alternative->id]['C1'] * $criterias->where('name', 'sharpeRatio')->first()->weight,
                 'C2' => $normalizedData[$alternative->id]['C2'] * $criterias->where('name', 'AUM')->first()->weight,
                 'C3' => $normalizedData[$alternative->id]['C3'] * $criterias->where('name', 'deviden')->first()->weight,
             ];
         }
-        // dd($weightedData);
+
         return view('dashboard.calculation.index', [
             'title' => 'Calculation',
             'results' => $results,
@@ -185,7 +170,9 @@ class DashboardCalculationController extends Controller
     public function export_excel($date)
     {
         $results = $this->calculateSAW($date);
-    
+        $results["maxValues"] = [];
+        $results["criterias"] = [];
+ 
         // Convert array to a collection
         $resultsCollection =  collect($results);
         return Excel::download(new ResultExport($resultsCollection), 'result.xlsx');
