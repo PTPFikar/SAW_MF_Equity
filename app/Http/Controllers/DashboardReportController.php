@@ -168,11 +168,62 @@ class DashboardReportController extends Controller
 
     public function export_excel($date)
     {
-        $results = $this->reportSAW($date);
-        $rawData = Products::where('date', $date)->get();   
- 
-        // Convert array to a collection
+        
+        
+
+        $reportResult = $this->reportSAW($date);
+    
+        if (empty($reportResult['results'])) {
+            return back()->with('failed', 'Data Not Found');
+        }
+    
+        $maxValues = $reportResult['maxValues'];
+        $criterias = $reportResult['criterias'];
+        $results = $reportResult['results'];
         $reportCollection =  collect($results);
+        // Raw Data or Alternatif
+        $rawData = Products::where('date', $date)->get();
+        $rawDataWithDetails = [];
+
+        foreach ($rawData as $alternative) {
+            $rawDataWithDetails[$alternative->id] = [
+                'ID' => $alternative->id,
+                'ISIN' => $alternative->ISIN,
+                'productName' => $alternative->productName,
+                'expectReturn' => $alternative->expectReturn,
+                'C1' => $alternative->sharpeRatio,
+                'C2' => $alternative->AUM,
+                'C3' => $alternative->deviden,
+            ];
+        }
+
+        // Normalization Data
+        $normalizedData = [];
+        foreach ($rawData as $alternative) {
+            $normalizedData[$alternative->id] = [
+                'ID' => $alternative->id,
+                'ISIN' => $alternative->ISIN,
+                'productName' => $alternative->productName,
+                'C1' => $alternative->sharpeRatio / $maxValues['sharpeRatio'],
+                'C2' => $alternative->AUM / $maxValues['AUM'],
+                'C3' => $alternative->deviden / $maxValues['deviden'],
+            ];
+        }
+
+        // Preferences Data
+        $weightedData = [];
+        foreach ($rawData as $alternative) {
+            $weightedData[$alternative->id] = [
+                'ID' => $alternative->id,
+                'ISIN' => $alternative->ISIN,
+                'productName' => $alternative->productName,
+                'expectReturn' => $alternative->expectReturn,
+                'C1' => $normalizedData[$alternative->id]['C1'] * $criterias->where('name', 'sharpeRatio')->first()->weight,
+                'C2' => $normalizedData[$alternative->id]['C2'] * $criterias->where('name', 'AUM')->first()->weight,
+                'C3' => $normalizedData[$alternative->id]['C3'] * $criterias->where('name', 'deviden')->first()->weight,
+            ];
+        }
+        // dd($rawDataWithDetails);
         return Excel::download(new ReportExport($reportCollection, $rawData), 'report.xlsx');
     }
 }
