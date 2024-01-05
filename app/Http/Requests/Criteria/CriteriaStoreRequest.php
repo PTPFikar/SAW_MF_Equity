@@ -24,9 +24,10 @@ class CriteriaStoreRequest extends FormRequest
   public function rules()
   {
     return [
-      'name'      => 'required|max:30|unique:criterias',
-      'attribute' => 'required',
-      'weight'    => 'required',
+      'name'          => 'required',
+      'criteriaName'  => 'required',
+      'attribute'     => 'required',
+      'weight'        => 'required|numeric|min:0|max:100',
     ];
   }
 }

@@ -33,7 +33,8 @@
                             <th scope="col" class="text-center">Expect Return 1 Year</th>
                             <th scope="col" class="text-center">Sharpe Ratio</th>
                             <th scope="col" class="text-center">AUM</th>
-                            <th scope="col" class="text-center">Result Total</th>
+                            <th scope="col" class="text-center">Deviden</th>
+                            <th scope="col" class="text-center">Result SAW</th>
                             <th scope="col" class="text-center">Rank</th>
                         </tr>
                     </thead>
@@ -45,6 +46,7 @@
                             <td class="text-center"><?php echo e($rawData[$result['ID']]['expectReturn']); ?></td>
                             <td class="text-center"><?php echo e($rawData[$result['ID']]['C1']); ?></td>
                             <td class="text-center"><?php echo e($rawData[$result['ID']]['C2']); ?></td>
+                            <td class="text-center"><?php echo e($rawData[$result['ID']]['C3'] == 2 ? 'YES': 'NO'); ?></td>
                             <td class="text-center"><?php echo e(number_format($result['Result'], 2)); ?></td>
                             <td class="text-center"><?php echo e($result['Rank']); ?></td>
                         </tr>

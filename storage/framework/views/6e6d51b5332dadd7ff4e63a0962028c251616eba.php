@@ -25,6 +25,7 @@
       </tbody>
     </table>
     <b><i><font size="2">*Risk Free digunakan dalam perhitungan sharpe ratio</font></i></b><br>
+    <b><i><font size="2">*Risk Free didapatkan nilai dari https://www.bi.go.id/id/statistik/indikator/bi-7day-rr.aspx</font></i></b><br>
   </div>
 <?php $__env->stopSection(); ?>
 

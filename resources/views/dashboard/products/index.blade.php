@@ -28,8 +28,8 @@
               <td class="text-center">{{ $loop->iteration }}</td>
               <td class="text-center">{{ $object->ISIN }}</td>
               <td class>{{ $object->productName }}</td>
-              <td class="text-center">{{ $object->expectReturn }}</td>
-              <td class="text-center">{{ $object->standardDeviation }}</td>
+              <td class="text-center">{{ number_format($object->expectReturn * 100, 2) }}%</td>
+              <td class="text-center">{{ number_format($object->standardDeviation * 100, 2) }}%</td>
               <td class="text-center">{{ $object->sharpeRatio }}</td>
               <td class="text-center">{{ $object->AUM }}</td>
               <td class="text-center">{{ $object->deviden == 2 ? 'YES': 'NO' }}</td>

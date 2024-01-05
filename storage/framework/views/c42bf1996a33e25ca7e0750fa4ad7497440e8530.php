@@ -26,8 +26,8 @@
               <td class="text-center"><?php echo e($loop->iteration); ?></td>
               <td class="text-center"><?php echo e($object->ISIN); ?></td>
               <td class><?php echo e($object->productName); ?></td>
-              <td class="text-center"><?php echo e($object->expectReturn); ?></td>
-              <td class="text-center"><?php echo e($object->standardDeviation); ?></td>
+              <td class="text-center"><?php echo e(number_format($object->expectReturn * 100, 2)); ?>%</td>
+              <td class="text-center"><?php echo e(number_format($object->standardDeviation * 100, 2)); ?>%</td>
               <td class="text-center"><?php echo e($object->sharpeRatio); ?></td>
               <td class="text-center"><?php echo e($object->AUM); ?></td>
               <td class="text-center"><?php echo e($object->deviden == 2 ? 'YES': 'NO'); ?></td>

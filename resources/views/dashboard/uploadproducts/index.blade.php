@@ -24,27 +24,27 @@
        <table class="table">
            <thead>
                <tr>
-               <th scope="col">ISIN</th>
-               <th scope="col">Product Name</th>
-               <th scope="col">Expect Return 1 Year</th>
-               <th scope="col">Standard Deviation 1 Year</th>
-               <th scope="col">Sharpe Ratio</th>
-               <th scope="col">AUM</th>
-               <th scope="col">Deviden</th>
-               <th scope="col">Date</th>
+               <th scope="col" class="text-center">ISIN</th>
+               <th scope="col" class="text-center">Product Name</th>
+               <th scope="col" class="text-center">Expect Return 1 Year</th>
+               <th scope="col" class="text-center">Standard Deviation 1 Year</th>
+               <th scope="col" class="text-center">Sharpe Ratio</th>
+               <th scope="col" class="text-center">AUM</th>
+               <th scope="col" class="text-center">Deviden</th>
+               <th scope="col" class="text-center">Date</th>
                </tr>
            </thead>
            <tbody>
             @foreach ($products as $product)
                 <tr>
-                    <td>{{$product->ISIN}}</td>
+                    <td class="text-center">{{$product->ISIN}}</td>
                     <td>{{$product->productName}}</td>
-                    <td>{{$product->expectReturn}}</td>
-                    <td>{{$product->standardDeviation}}</td>
-                    <td>{{$product->sharpeRatio}}</td>
-                    <td>{{$product->AUM}}</td>
-                    <td>{{$product->deviden == 2 ? 'YES': 'NO'}}</td>
-                    <td>{{$product->date}}</td>
+                    <td class="text-center">{{ number_format($product->expectReturn * 100, 2) }}%</td>
+                    <td class="text-center">{{ number_format($product->standardDeviation * 100, 2) }}%</td>
+                    <td class="text-center">{{$product->sharpeRatio}}</td>
+                    <td class="text-center">{{$product->AUM}}</td>
+                    <td class="text-center">{{$product->deviden == 2 ? 'YES': 'NO'}}</td>
+                    <td class="text-center">{{$product->date}}</td>
                 </tr>
             @endforeach
            </tbody>

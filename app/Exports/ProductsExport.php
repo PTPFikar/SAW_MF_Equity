@@ -27,11 +27,15 @@ class ProductsExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        $products = Products::select('ISIN', 'productName', 'expectReturn', 'standardDeviation', 'sharpeRatio', 'AUM', 'deviden', 'date')->get();
+        $products = Products::select('ISIN', 'productName', 'expectReturn', 'standardDeviation', 'sharpeRatio', 'AUM', 'deviden', 'date')
+            ->orderBy('productName', 'asc')
+            ->orderBy('date', 'asc')
+            ->get();
 
-        // Modify the 'Deviden' column values
         $products->transform(function ($product) {
             $product->deviden = $product->deviden == 2 ? 'YES' : 'NO';
+            $product->expectReturn = $product->expectReturn * 100 . '%';
+            $product->standardDeviation = $product->standardDeviation * 100 . '%';
             return $product;
         });
 

@@ -13,7 +13,7 @@ class DashboardUploadProductsController extends Controller
 {
     public function index()
     {
-        $products = Products::orderBy('date', 'asc')->orderBy('productName', 'asc')->paginate(10);
+        $products = Products::orderBy('updated_at', 'desc')->orderBy('created_at', 'desc')->paginate(10);
         $title = 'Upload Products';
         return view('dashboard.uploadproducts.index', compact('products','title'));
     }
@@ -127,5 +127,4 @@ class DashboardUploadProductsController extends Controller
         }
         return redirect()->back()->with('success', 'CSV Data Imported Successfully.');
     }
-
 }

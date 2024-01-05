@@ -25,7 +25,7 @@ class ReportExport implements FromCollection, WithHeadings
             'Expect Return 1 Year',
             'Sharpe Ratio',
             'AUM',
-            'Result Total',
+            'Result SAW',
             'Rank',
         ];
     }
@@ -37,23 +37,21 @@ class ReportExport implements FromCollection, WithHeadings
         foreach ($this->results as $result) {
             $id = $result['ID'];
             foreach ($this->rawData as $data) {
-        // dd($data);
 
                 if ($data['id'] == $id) {
                     $mappedResults[] = [
                         'ID' => $id,
                         'ISIN' => $result['ISIN'],
                         'Product Name' => $result['productName'],
-                        'Expect Return 1 Year' => $data['expectReturn'],
+                        'Expect Return 1 Year' => $data['expectReturn'] * 100 . '%',
                         'Sharpe Ratio' => $data['sharpeRatio'],
                         'AUM' => $data['AUM'],
-                        'Result Total' => number_format($result['Result'], 2),
+                        'Result SAW' => number_format($result['Result'], 2),
                         'Rank' => $result['Rank']
                     ];
                 }
             }
         }
-        // dd($mappedResults);
         return collect($mappedResults);
     }
 

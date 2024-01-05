@@ -25,27 +25,27 @@
        <table class="table">
            <thead>
                <tr>
-               <th scope="col">ISIN</th>
-               <th scope="col">Product Name</th>
-               <th scope="col">Expect Return 1 Year</th>
-               <th scope="col">Standard Deviation 1 Year</th>
-               <th scope="col">Sharpe Ratio</th>
-               <th scope="col">AUM</th>
-               <th scope="col">Deviden</th>
-               <th scope="col">Date</th>
+               <th scope="col" class="text-center">ISIN</th>
+               <th scope="col" class="text-center">Product Name</th>
+               <th scope="col" class="text-center">Expect Return 1 Year</th>
+               <th scope="col" class="text-center">Standard Deviation 1 Year</th>
+               <th scope="col" class="text-center">Sharpe Ratio</th>
+               <th scope="col" class="text-center">AUM</th>
+               <th scope="col" class="text-center">Deviden</th>
+               <th scope="col" class="text-center">Date</th>
                </tr>
            </thead>
            <tbody>
             <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
-                    <td><?php echo e($product->ISIN); ?></td>
+                    <td class="text-center"><?php echo e($product->ISIN); ?></td>
                     <td><?php echo e($product->productName); ?></td>
-                    <td><?php echo e($product->expectReturn); ?></td>
-                    <td><?php echo e($product->standardDeviation); ?></td>
-                    <td><?php echo e($product->sharpeRatio); ?></td>
-                    <td><?php echo e($product->AUM); ?></td>
-                    <td><?php echo e($product->deviden == 2 ? 'YES': 'NO'); ?></td>
-                    <td><?php echo e($product->date); ?></td>
+                    <td class="text-center"><?php echo e(number_format($product->expectReturn * 100, 2)); ?>%</td>
+                    <td class="text-center"><?php echo e(number_format($product->standardDeviation * 100, 2)); ?>%</td>
+                    <td class="text-center"><?php echo e($product->sharpeRatio); ?></td>
+                    <td class="text-center"><?php echo e($product->AUM); ?></td>
+                    <td class="text-center"><?php echo e($product->deviden == 2 ? 'YES': 'NO'); ?></td>
+                    <td class="text-center"><?php echo e($product->date); ?></td>
                 </tr>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
            </tbody>

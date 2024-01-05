@@ -23,7 +23,7 @@
        @if(isset($rawData))
        <div class="table-responsive col-lg-12 text-center">
            <br>
-           <h1 class="h2">Raw Data</h1>
+           <h1 class="h2">Matrix Data</h1>
        </div>
        <div class="table-responsive col-lg-12">
            <table class="table table-striped">
@@ -31,9 +31,9 @@
                    <tr>
                        <th scope="col" class="text-center">ISIN</th>
                        <th scope="col" class="text-center">Product Name</th>
-                       <th scope="col" class="text-center">C1</th>
-                       <th scope="col" class="text-center">C2</th>
-                       <th scope="col" class="text-center">C3</th>
+                       <th scope="col" class="text-center">Sharpe Ratio</th>
+                       <th scope="col" class="text-center">AUM</th>
+                       <th scope="col" class="text-center">Deviden</th>
                    </tr>
                </thead>
                <tbody>
@@ -62,9 +62,9 @@
                 <tr>
                     <th scope="col" class="text-center">ISIN</th>
                     <th scope="col" class="text-center">Product Name</th>
-                    <th scope="col" class="text-center">C1</th>
-                    <th scope="col" class="text-center">C2</th>
-                    <th scope="col" class="text-center">C3</th>
+                    <th scope="col" class="text-center">Sharpe Ratio</th>
+                    <th scope="col" class="text-center">AUM</th>
+                    <th scope="col" class="text-center">Deviden</th>
                 </tr>
             </thead>
             <tbody>
@@ -93,9 +93,9 @@
                 <tr>
                     <th scope="col" class="text-center">ISIN</th>
                     <th scope="col" class="text-center">Product Name</th>
-                    <th scope="col" class="text-center">C1</th>
-                    <th scope="col" class="text-center">C2</th>
-                    <th scope="col" class="text-center">C3</th>
+                    <th scope="col" class="text-center">Sharpe Ratio</th>
+                    <th scope="col" class="text-center">AUM</th>
+                    <th scope="col" class="text-center">Deviden</th>
                     <th scope="col" class="text-center">Result Total</th>
                     <th scope="col" class="text-center">Rank</th>
                 </tr>

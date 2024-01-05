@@ -223,7 +223,7 @@ class DashboardReportController extends Controller
                 'C3' => $normalizedData[$alternative->id]['C3'] * $criterias->where('name', 'deviden')->first()->weight,
             ];
         }
-        // dd($rawDataWithDetails);
+        
         return Excel::download(new ReportExport($reportCollection, $rawData), 'report.xlsx');
     }
 }

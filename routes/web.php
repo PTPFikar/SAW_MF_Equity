@@ -35,6 +35,15 @@ Route::middleware('auth')->group(function () {
   Route::get('dashboard/profile', [DashboardProfileController::class, 'index']);
   Route::put('dashboard/profile/{user}', [DashboardProfileController::class, 'update']);
 
+  Route::get('dashboard/criterias', [AdminCriteriaController::class, 'index'])->name('criteria.index');
+
+  Route::get('dashboard/criterias/create', [AdminCriteriaController::class, 'create'])->name('criteria.create');
+  Route::post('dashboard/criterias', [AdminCriteriaController::class, 'store'])->name('criteria.store');
+
+  Route::get('dashboard/criterias/edit/{id}', [AdminCriteriaController::class, 'edit'])->name('criteria.edit');
+  Route::put('dashboard/criterias/update/{id}', [AdminCriteriaController::class, 'update'])->name('criteria.update');
+  Route::delete('dashboard/criterias/{id}', [AdminCriteriaController::class, 'destroy'])->name('criteria.delete');
+
   Route::get('dashboard/risks', [AdminRiskController::class, 'index']);
   Route::get('dashboard/risks/edit/{id}', [AdminRiskController::class, 'edit'])->name('risk.edit');
   Route::put('dashboard/risks/update/{id}', [AdminRiskController::class, 'update'])->name('risk.update');
@@ -55,10 +64,4 @@ Route::middleware('auth')->group(function () {
   Route::get('dashboard/report', [DashboardReportController::class, 'index'])->name('dashboard.report');
   Route::post('dashboard/report', [DashboardReportController::class, 'report'])->name('reportSAW');
   Route::post('dashboard/report/export_excel/{date}', [DashboardReportController::class, 'export_excel'])->name('report.exports');
-
-
-
-  Route::resources([
-    'dashboard/criterias'     => AdminCriteriaController::class
-  ], ['except' => 'show']);
 });
