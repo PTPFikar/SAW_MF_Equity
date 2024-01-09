@@ -136,7 +136,10 @@ class DashboardCalculationController extends Controller
             $preferenceValue = 0;
 
             foreach ($criterias as $criteria) {
-                if (($maxValues[$criteria->name] != 0 || $minValues[$criteria->name] != 0) && $alternative->{$criteria->name} != 0) {
+                if (isset($maxValues[$criteria->name], $minValues[$criteria->name]) &&
+                    $maxValues[$criteria->name] != 0 && $minValues[$criteria->name] != 0 &&
+                    $alternative->{$criteria->name} != 0
+                ) {
                     // If attribute is COST = minValues each Criteria
                     if ($criteria->attribute === 'COST') {
                         $preferenceValue += $criteria->weight * ($minValues[$criteria->name] / $alternative->{$criteria->name});
@@ -154,9 +157,14 @@ class DashboardCalculationController extends Controller
             // Dynamically generate keys based on criterion names
             foreach ($criterias as $criteria) {
                 $key = 'C' . $criteria->id;
-                $preferences[$alternative->id][$key] = ($alternative->{$criteria->name} / $maxValues[$criteria->name]) * $criteria->weight;
+
+                // Check if the key exists in $maxValues array
+                $preferences[$alternative->id][$key] = isset($maxValues[$criteria->name])
+                    ? ($alternative->{$criteria->name} / $maxValues[$criteria->name]) * $criteria->weight
+                    : 0; // or any default value you prefer
             }
         }
+
 
         // Sort alternatives by rank
         $alternatives = $alternatives->map(function ($alternative) use ($preferences) {
@@ -293,19 +301,25 @@ class DashboardCalculationController extends Controller
     
         // Normalization Data
         $normalizedData = [];
+
         foreach ($rawData as $alternative) {
             $normalizedData[$alternative->id] = [
                 'ID' => $alternative->id,
                 'ISIN' => $alternative->ISIN,
                 'productName' => $alternative->productName,
             ];
-    
+
             // Dynamically generate keys based on criterion names
             foreach ($criterias as $criteria) {
                 $key = 'C' . $criteria->id;
-                $normalizedData[$alternative->id][$key] = $alternative->{$criteria->name} / $maxValues[$criteria->name];
+
+                // Check if the key exists in $maxValues array
+                $normalizedData[$alternative->id][$key] = isset($maxValues[$criteria->name])
+                    ? $alternative->{$criteria->name} / $maxValues[$criteria->name]
+                    : 0; // or any default value you prefer
             }
         }
+
     
         // Preferences Data
         $weightedData = [];
@@ -315,14 +329,18 @@ class DashboardCalculationController extends Controller
                 'ISIN' => $alternative->ISIN,
                 'productName' => $alternative->productName,
             ];
-    
+
             // Dynamically generate keys based on criterion names
             foreach ($criterias as $criteria) {
                 $key = 'C' . $criteria->id;
-                $weightedData[$alternative->id][$key] = $normalizedData[$alternative->id][$key] * $criteria->weight;
+
+                // Check if the key exists in $normalizedData array
+                $weightedData[$alternative->id][$key] = isset($normalizedData[$alternative->id][$key])
+                    ? $normalizedData[$alternative->id][$key] * $criteria->weight
+                    : 0; // or any default value you prefer
             }
         }
-    
+
         return view('dashboard.calculation.index', [
             'title' => 'Calculation',
             'results' => $results,
