@@ -149,7 +149,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'D:\\MyFiles\\Kuliah\\Skripsi\\Aplication\\SPK-SAW\\storage\\framework/cache/data',
+        'path' => '/Users/mohammadnovel/Documents/Projects/SAW_MF_Equity/storage/framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -241,7 +241,7 @@
       array (
         'driver' => 'sqlite',
         'url' => NULL,
-        'database' => 'reksadana_new',
+        'database' => 'reksadana',
         'prefix' => '',
         'foreign_key_constraints' => true,
       ),
@@ -251,7 +251,7 @@
         'url' => NULL,
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'reksadana_new',
+        'database' => 'reksadana',
         'username' => 'root',
         'password' => '',
         'unix_socket' => '',
@@ -271,7 +271,7 @@
         'url' => NULL,
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'reksadana_new',
+        'database' => 'reksadana',
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -286,7 +286,7 @@
         'url' => NULL,
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'reksadana_new',
+        'database' => 'reksadana',
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -427,7 +427,7 @@
     ),
     'temporary_files' => 
     array (
-      'local_path' => 'D:\\MyFiles\\Kuliah\\Skripsi\\Aplication\\SPK-SAW\\storage\\framework/cache/laravel-excel',
+      'local_path' => '/Users/mohammadnovel/Documents/Projects/SAW_MF_Equity/storage/framework/cache/laravel-excel',
       'remote_disk' => NULL,
       'remote_prefix' => NULL,
       'force_resync_remote' => NULL,
@@ -441,13 +441,13 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'D:\\MyFiles\\Kuliah\\Skripsi\\Aplication\\SPK-SAW\\storage\\app',
+        'root' => '/Users/mohammadnovel/Documents/Projects/SAW_MF_Equity/storage/app',
         'throw' => false,
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'D:\\MyFiles\\Kuliah\\Skripsi\\Aplication\\SPK-SAW\\storage\\app/public',
+        'root' => '/Users/mohammadnovel/Documents/Projects/SAW_MF_Equity/storage/app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
         'throw' => false,
@@ -467,7 +467,7 @@
     ),
     'links' => 
     array (
-      'D:\\MyFiles\\Kuliah\\Skripsi\\Aplication\\SPK-SAW\\public\\storage' => 'D:\\MyFiles\\Kuliah\\Skripsi\\Aplication\\SPK-SAW\\storage\\app/public',
+      '/Users/mohammadnovel/Documents/Projects/SAW_MF_Equity/public/storage' => '/Users/mohammadnovel/Documents/Projects/SAW_MF_Equity/storage/app/public',
     ),
   ),
   'hashing' => 
@@ -502,13 +502,13 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'D:\\MyFiles\\Kuliah\\Skripsi\\Aplication\\SPK-SAW\\storage\\logs/laravel.log',
+        'path' => '/Users/mohammadnovel/Documents/Projects/SAW_MF_Equity/storage/logs/laravel.log',
         'level' => 'debug',
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'D:\\MyFiles\\Kuliah\\Skripsi\\Aplication\\SPK-SAW\\storage\\logs/laravel.log',
+        'path' => '/Users/mohammadnovel/Documents/Projects/SAW_MF_Equity/storage/logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
       ),
@@ -560,7 +560,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'D:\\MyFiles\\Kuliah\\Skripsi\\Aplication\\SPK-SAW\\storage\\logs/laravel.log',
+        'path' => '/Users/mohammadnovel/Documents/Projects/SAW_MF_Equity/storage/logs/laravel.log',
       ),
     ),
   ),
@@ -625,7 +625,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'D:\\MyFiles\\Kuliah\\Skripsi\\Aplication\\SPK-SAW\\resources\\views/vendor/mail',
+        0 => '/Users/mohammadnovel/Documents/Projects/SAW_MF_Equity/resources/views/vendor/mail',
       ),
     ),
   ),
@@ -709,7 +709,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'D:\\MyFiles\\Kuliah\\Skripsi\\Aplication\\SPK-SAW\\storage\\framework/sessions',
+    'files' => '/Users/mohammadnovel/Documents/Projects/SAW_MF_Equity/storage/framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -787,9 +787,9 @@
   array (
     'paths' => 
     array (
-      0 => 'D:\\MyFiles\\Kuliah\\Skripsi\\Aplication\\SPK-SAW\\resources\\views',
+      0 => '/Users/mohammadnovel/Documents/Projects/SAW_MF_Equity/resources/views',
     ),
-    'compiled' => 'D:\\MyFiles\\Kuliah\\Skripsi\\Aplication\\SPK-SAW\\storage\\framework\\views',
+    'compiled' => '/Users/mohammadnovel/Documents/Projects/SAW_MF_Equity/storage/framework/views',
   ),
   'flare' => 
   array (
@@ -864,7 +864,7 @@
     array (
     ),
     'enable_runnable_solutions' => NULL,
-    'remote_sites_path' => 'D:\\MyFiles\\Kuliah\\Skripsi\\Aplication\\SPK-SAW',
+    'remote_sites_path' => '/Users/mohammadnovel/Documents/Projects/SAW_MF_Equity',
     'local_sites_path' => '',
     'housekeeping_endpoint_prefix' => '_ignition',
     'settings_file_path' => '',
@@ -946,7 +946,7 @@
     'include_helpers' => false,
     'helper_files' => 
     array (
-      0 => 'D:\\MyFiles\\Kuliah\\Skripsi\\Aplication\\SPK-SAW/vendor/laravel/framework/src/Illuminate/Support/helpers.php',
+      0 => '/Users/mohammadnovel/Documents/Projects/SAW_MF_Equity/vendor/laravel/framework/src/Illuminate/Support/helpers.php',
     ),
     'model_locations' => 
     array (
