@@ -149,7 +149,7 @@ class DashboardCalculationController extends Controller
                     }
                 }
             }
-
+            // dd($minValues);
             $preferences[$alternative->id] = [
                 'ResultTotal' => $preferenceValue,
             ];
@@ -320,20 +320,23 @@ class DashboardCalculationController extends Controller
 
             // Dynamically generate keys based on criterion names
             foreach ($criterias as $criteria) {
-                $key = 'C' . ($index);
+                $key = 'C' . $index;
 
+                // Check the criteria type and use minValues or maxValues accordingly
+                $valueToUse = $criteria->attribute === 'BENEFIT' ? $maxValues[$criteria->name] : $minValues[$criteria->name];
+                // dd($valueToUse);
                 // Check if the key exists in $maxValues array
-                $normalizedData[$alternative->id][$key] = isset($maxValues[$criteria->name])
-                    ? $alternative->{$criteria->name} / $maxValues[$criteria->name]
-                    : 0; // or any default value you prefer
+                $normalizedData[$alternative->id][$key] = isset($valueToUse) && $criteria->attribute === 'BENEFIT'
+                    ? $alternative->{$criteria->name} / $valueToUse
+                    : $valueToUse / $alternative->{$criteria->name}; // or any default value you prefer
                 $index++;
             }
         }
-
+        // dd()
     
         // Preferences Data
         $weightedData = [];
-        $index = 1; 
+        $index = 1;
 
         foreach ($rawData as $alternative) {
             $weightedData[$alternative->id] = [
@@ -346,14 +349,28 @@ class DashboardCalculationController extends Controller
             foreach ($criterias as $criteria) {
                 $key = 'C' . $index;
 
+                // Check the criteria type and use minValues or maxValues accordingly
+                $valueToUse = $criteria->attribute === 'COST' ? $minValues[$criteria->name] : $maxValues[$criteria->name];
+
                 // Check if the key exists in $normalizedData array
-                $weightedData[$alternative->id][$key] = isset($normalizedData[$alternative->id][$key])
-                    ? $normalizedData[$alternative->id][$key] * $criteria->weight
-                    : 0; // or any default value you prefer
+                if (isset($valueToUse) && $valueToUse != 0) {
+                    // Calculate the weighted value based on the criteria type
+                    $weightedData[$alternative->id][$key] = isset($normalizedData[$alternative->id][$key])
+                        ? $normalizedData[$alternative->id][$key] * $criteria->weight
+                        : 0; // or any default value you prefer
+                } else {
+                    // Set default value or handle the case where the key does not exist
+                    $weightedData[$alternative->id][$key] = 0;
+                }
+
                 $index++;
             }
+
+            // Reset index for the next alternative
+            $index = 1;
         }
-        // dd($normalizedData);
+
+        // dd($weightedData);
         return view('dashboard.calculation.index', [
             'title' => 'Calculation',
             'results' => $results,
