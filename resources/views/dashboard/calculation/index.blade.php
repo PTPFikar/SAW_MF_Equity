@@ -101,15 +101,15 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($results as $result)
+                @foreach($weightedData as $result)
                 <tr>
                     <td class="text-center">{{ $result['ISIN'] }}</td>
                     <td>{{ $result['productName'] }}</td>
                     <td class="text-center">{{ number_format($result['C1'], 2) }}</td>
                     <td class="text-center">{{ number_format($result['C2'], 2) }}</td>
                     <td class="text-center">{{ number_format($result['C3'], 2) }}</td>
-                    <td class="text-center">{{ number_format($result['Result'], 2) }}</td>
-                    <td class="text-center">{{ $result['Rank'] }}</td>
+                    <td class="text-center">{{ number_format($result['sumResult'], 2) }}</td>
+                    <td class="text-center">{{ $result['rank'] }}</td>
                 </tr>
                 @endforeach
             </tbody>
