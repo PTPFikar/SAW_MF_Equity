@@ -153,15 +153,16 @@ class DashboardCalculationController extends Controller
             $preferences[$alternative->id] = [
                 'ResultTotal' => $preferenceValue,
             ];
-
+            $index = 1; 
             // Dynamically generate keys based on criterion names
             foreach ($criterias as $criteria) {
-                $key = 'C' . $criteria->id;
+                $key = 'C' . $index;
 
                 // Check if the key exists in $maxValues array
                 $preferences[$alternative->id][$key] = isset($maxValues[$criteria->name])
                     ? ($alternative->{$criteria->name} / $maxValues[$criteria->name]) * $criteria->weight
                     : 0; // or any default value you prefer
+                $index++;
             }
         }
 
@@ -184,11 +185,14 @@ class DashboardCalculationController extends Controller
                 'Result' => $alternative->preferenceValue,
                 'Rank' => $rank,
             ];
+            $index = 1; 
 
             // Dynamically generate keys based on criterion names
             foreach ($criterias as $criteria) {
-                $key = 'C' . $criteria->id;
+                $key = 'C' . $index;
                 $resultItem[$key] = $alternative->{$key};
+
+                $index++;
             }
 
             $results[] = $resultItem;
@@ -291,11 +295,14 @@ class DashboardCalculationController extends Controller
                 'ISIN' => $alternative->ISIN,
                 'productName' => $alternative->productName,
             ];
-    
+
+            $index = 1; 
+            
             // Dynamically generate keys based on criterion names
             foreach ($criterias as $criteria) {
-                $key = 'C' . $criteria->id;
+                $key = 'C' . $index;
                 $rawDataWithDetails[$alternative->id][$key] = $alternative->{$criteria->name};
+                $index++;
             }
         }
     
@@ -309,20 +316,25 @@ class DashboardCalculationController extends Controller
                 'productName' => $alternative->productName,
             ];
 
+            $index = 1; 
+
             // Dynamically generate keys based on criterion names
             foreach ($criterias as $criteria) {
-                $key = 'C' . $criteria->id;
+                $key = 'C' . ($index);
 
                 // Check if the key exists in $maxValues array
                 $normalizedData[$alternative->id][$key] = isset($maxValues[$criteria->name])
                     ? $alternative->{$criteria->name} / $maxValues[$criteria->name]
                     : 0; // or any default value you prefer
+                $index++;
             }
         }
 
     
         // Preferences Data
         $weightedData = [];
+        $index = 1; 
+
         foreach ($rawData as $alternative) {
             $weightedData[$alternative->id] = [
                 'ID' => $alternative->id,
@@ -332,15 +344,16 @@ class DashboardCalculationController extends Controller
 
             // Dynamically generate keys based on criterion names
             foreach ($criterias as $criteria) {
-                $key = 'C' . $criteria->id;
+                $key = 'C' . $index;
 
                 // Check if the key exists in $normalizedData array
                 $weightedData[$alternative->id][$key] = isset($normalizedData[$alternative->id][$key])
                     ? $normalizedData[$alternative->id][$key] * $criteria->weight
                     : 0; // or any default value you prefer
+                $index++;
             }
         }
-
+        // dd($normalizedData);
         return view('dashboard.calculation.index', [
             'title' => 'Calculation',
             'results' => $results,
