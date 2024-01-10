@@ -178,6 +178,7 @@ class DashboardCalculationController extends Controller
                 'productName' => $alternative->productName,
             ];
             $sum = 0;
+            
             // Dynamically generate keys based on criterion names
             foreach ($criterias as $criteria) {
                 $key = 'C' . $index;
