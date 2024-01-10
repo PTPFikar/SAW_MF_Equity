@@ -182,21 +182,15 @@ class DashboardCalculationController extends Controller
             foreach ($criterias as $criteria) {
                 $key = 'C' . $index;
         
-                // Debug output
-                // echo "Debug: Key: $key, Attribute: $criteria->attribute\n";
-        
-                // Check the criteria type and use minValues or maxValues accordingly
-                $valueToUse = $criteria->attribute == 'COST' ? $minValues[$criteria->name] : $maxValues[$criteria->name];
-        
-                // Debug output
-                // echo "Debug: Value to Use: $valueToUse\n";
+                $valueToUse = $criteria->attribute == 'BENEFIT' ? $maxValues[$criteria->name] : $minValues[$criteria->name];
         
                 // Check if the key exists in $normalizedData array
                 if (isset($valueToUse) && $valueToUse != 0) {
                     // Calculate the weighted value based on the criteria type
-                    $weightedData[$alternative->id][$key] = isset($normalizedData[$alternative->id][$key]) && $criteria->attribute === 'BENEFIT'
+                    $weightedData[$alternative->id][$key] = isset($normalizedData[$alternative->id][$key])
                         ? $normalizedData[$alternative->id][$key] * $criteria->weight
-                        : $normalizedData[$alternative->id][$key] * $criteria->weight; // or any default value you prefer
+                        : 0; 
+                        // or any default value you prefer
                 } else {
                     // Set default value or handle the case where the key does not exist
                     $weightedData[$alternative->id][$key] = 0;
@@ -230,7 +224,6 @@ class DashboardCalculationController extends Controller
             'weightedData' => $weightedData,
         ]);
     }
-    
 
     public function export_excel($date)
     {
