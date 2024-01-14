@@ -14,10 +14,10 @@ class Products extends Model
     'ISIN',
     'productName',
     'expectReturn',
-    'standardDeviation',
     'sharpeRatio',
     'AUM',
     'deviden',
+    'standardDeviation',
     'date',
     'created_at',
     'updated_at'

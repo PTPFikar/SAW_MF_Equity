@@ -31,21 +31,37 @@
                    <tr>
                        <th scope="col" class="text-center">ISIN</th>
                        <th scope="col" class="text-center">Product Name</th>
-                       <th scope="col" class="text-center">Sharpe Ratio</th>
-                       <th scope="col" class="text-center">AUM</th>
-                       <th scope="col" class="text-center">Deviden</th>
+                       @foreach($criterias as $criteria)
+                            <th scope="col" class="text-center">{{ $criteria->criteriaName }}</th>
+                       @endforeach
                    </tr>
                </thead>
                <tbody>
-                   @foreach($rawData as $data)
-                   <tr>
-                       <td class="text-center">{{ $data['ISIN'] }}</td>
-                       <td>{{ $data['productName'] }}</td>
-                       <td class="text-center">{{ number_format($data['C1'], 4) }}</td>
-                       <td class="text-center">{{ number_format($data['C2'], 2) }}</td>
-                       <td class="text-center">{{ ($data['C3']) }}</td>
-                   </tr>
-                   @endforeach
+                    @foreach($rawData as $data)
+                        <tr>
+                            <td class="text-center">{{ $data['ISIN'] }}</td>
+                            <td>{{ $data['productName'] }}</td>
+                            @php
+                                $index = 1;
+                            @endphp
+                            @foreach($criterias as $criteria)
+                                @php
+                                    $criteriaValue = $data[$criteria->name] ?? null;
+                                @endphp
+                                <td class="text-center">
+                                    @if ($criteriaValue !== null && $criteriaValue !== 0)
+                                        {{ number_format($criteriaValue, 4) }}
+                                    @else
+                                        {{-- Ambil nilai dari $data menggunakan indeks --}}
+                                        {{ number_format($data['C' . $index], 4) }}
+                                        @php
+                                            $index++;
+                                        @endphp
+                                    @endif
+                                </td>
+                            @endforeach
+                        </tr>
+                    @endforeach
                </tbody>
            </table>
        </div>
@@ -62,9 +78,9 @@
                 <tr>
                     <th scope="col" class="text-center">ISIN</th>
                     <th scope="col" class="text-center">Product Name</th>
-                    <th scope="col" class="text-center">Sharpe Ratio</th>
-                    <th scope="col" class="text-center">AUM</th>
-                    <th scope="col" class="text-center">Deviden</th>
+                    @foreach($criterias as $criteria)
+                        <th scope="col" class="text-center">{{ $criteria->criteriaName }}</th>
+                    @endforeach
                 </tr>
             </thead>
             <tbody>
@@ -72,9 +88,25 @@
                 <tr>
                     <td class="text-center">{{ $n_data['ISIN'] }}</td>
                     <td>{{ $n_data['productName'] }}</td>
-                    <td class="text-center">{{ number_format($n_data['C1'], 4) }}</td>
-                    <td class="text-center">{{ number_format($n_data['C2'], 4) }}</td>
-                    <td class="text-center">{{ number_format($n_data['C3'], 2) }}</td>
+                        @php
+                            $index = 1;
+                            @endphp
+                        @foreach($criterias as $criteria)
+                        @php
+                            $criteriaValue = $data[$criteria->name] ?? null;
+                        @endphp
+                        <td class="text-center">
+                              @if ($criteriaValue !== null && $criteriaValue !== 0)
+                                {{ number_format($criteriaValue, 4) }}
+                            @else
+                                {{-- Ambil nilai dari $data menggunakan indeks --}}
+                                {{ number_format($n_data['C' . $index], 4) }}
+                                @php
+                                    $index++;
+                                @endphp
+                            @endif
+                        </td>
+                    @endforeach
                 </tr>
                 @endforeach
             </tbody>
@@ -93,9 +125,9 @@
                 <tr>
                     <th scope="col" class="text-center">ISIN</th>
                     <th scope="col" class="text-center">Product Name</th>
-                    <th scope="col" class="text-center">Sharpe Ratio</th>
-                    <th scope="col" class="text-center">AUM</th>
-                    <th scope="col" class="text-center">Deviden</th>
+                    @foreach($criterias as $criteria)
+                        <th scope="col" class="text-center">{{ $criteria->criteriaName }}</th>
+                    @endforeach
                     <th scope="col" class="text-center">Result Total</th>
                     <th scope="col" class="text-center">Rank</th>
                 </tr>
@@ -105,9 +137,25 @@
                 <tr>
                     <td class="text-center">{{ $result['ISIN'] }}</td>
                     <td>{{ $result['productName'] }}</td>
-                    <td class="text-center">{{ number_format($result['C1'], 2) }}</td>
-                    <td class="text-center">{{ number_format($result['C2'], 2) }}</td>
-                    <td class="text-center">{{ number_format($result['C3'], 2) }}</td>
+                    @php
+                        $index = 1;
+                    @endphp
+                    @foreach($criterias as $criteria)
+                        @php
+                            $criteriaValue = $data[$criteria->name] ?? null;
+                        @endphp
+                        <td class="text-center">
+                            @if ($criteriaValue !== null && $criteriaValue !== 0)
+                                {{ number_format($criteriaValue, 4) }}
+                            @else
+                                {{-- Ambil nilai dari $data menggunakan indeks --}}
+                                {{ number_format($result['C' . $index], 4) }}
+                                @php
+                                    $index++;
+                                @endphp
+                            @endif
+                        </td>
+                    @endforeach
                     <td class="text-center">{{ number_format($result['sumResult'], 2) }}</td>
                     <td class="text-center">{{ $result['rank'] }}</td>
                 </tr>

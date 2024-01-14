@@ -17,6 +17,7 @@ class ResultExport implements FromCollection, WithHeadings
     {
         $this->results = $results;
     }
+
     public function headings(): array
     {
         return [
@@ -30,7 +31,7 @@ class ResultExport implements FromCollection, WithHeadings
             'Rank',
         ];
     }
-
+    
     // Result Export
     public function collection()
     {

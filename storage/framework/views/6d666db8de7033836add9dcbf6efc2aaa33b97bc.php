@@ -31,21 +31,39 @@
                    <tr>
                        <th scope="col" class="text-center">ISIN</th>
                        <th scope="col" class="text-center">Product Name</th>
-                       <th scope="col" class="text-center">Sharpe Ratio</th>
-                       <th scope="col" class="text-center">AUM</th>
-                       <th scope="col" class="text-center">Deviden</th>
+                       <?php $__currentLoopData = $criterias; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $criteria): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <th scope="col" class="text-center"><?php echo e($criteria->criteriaName); ?></th>
+                       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                    </tr>
                </thead>
                <tbody>
-                   <?php $__currentLoopData = $rawData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                   <tr>
-                       <td class="text-center"><?php echo e($data['ISIN']); ?></td>
-                       <td><?php echo e($data['productName']); ?></td>
-                       <td class="text-center"><?php echo e(number_format($data['C1'], 4)); ?></td>
-                       <td class="text-center"><?php echo e(number_format($data['C2'], 2)); ?></td>
-                       <td class="text-center"><?php echo e(($data['C3'])); ?></td>
-                   </tr>
-                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    <?php $__currentLoopData = $rawData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <tr>
+                            <td class="text-center"><?php echo e($data['ISIN']); ?></td>
+                            <td><?php echo e($data['productName']); ?></td>
+                            <?php
+                                $index = 1;
+                            ?>
+                            <?php $__currentLoopData = $criterias; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $criteria): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php
+                                    $criteriaValue = $data[$criteria->name] ?? null;
+                                ?>
+                                <td class="text-center">
+                                    <?php if($criteriaValue !== null && $criteriaValue !== 0): ?>
+                                        <?php echo e(number_format($criteriaValue, 4)); ?>
+
+                                    <?php else: ?>
+                                        
+                                        <?php echo e(number_format($data['C' . $index], 4)); ?>
+
+                                        <?php
+                                            $index++;
+                                        ?>
+                                    <?php endif; ?>
+                                </td>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </tr>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                </tbody>
            </table>
        </div>
@@ -62,9 +80,9 @@
                 <tr>
                     <th scope="col" class="text-center">ISIN</th>
                     <th scope="col" class="text-center">Product Name</th>
-                    <th scope="col" class="text-center">Sharpe Ratio</th>
-                    <th scope="col" class="text-center">AUM</th>
-                    <th scope="col" class="text-center">Deviden</th>
+                    <?php $__currentLoopData = $criterias; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $criteria): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <th scope="col" class="text-center"><?php echo e($criteria->criteriaName); ?></th>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </tr>
             </thead>
             <tbody>
@@ -72,9 +90,27 @@
                 <tr>
                     <td class="text-center"><?php echo e($n_data['ISIN']); ?></td>
                     <td><?php echo e($n_data['productName']); ?></td>
-                    <td class="text-center"><?php echo e(number_format($n_data['C1'], 4)); ?></td>
-                    <td class="text-center"><?php echo e(number_format($n_data['C2'], 4)); ?></td>
-                    <td class="text-center"><?php echo e(number_format($n_data['C3'], 2)); ?></td>
+                        <?php
+                            $index = 1;
+                            ?>
+                        <?php $__currentLoopData = $criterias; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $criteria): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <?php
+                            $criteriaValue = $data[$criteria->name] ?? null;
+                        ?>
+                        <td class="text-center">
+                              <?php if($criteriaValue !== null && $criteriaValue !== 0): ?>
+                                <?php echo e(number_format($criteriaValue, 4)); ?>
+
+                            <?php else: ?>
+                                
+                                <?php echo e(number_format($n_data['C' . $index], 4)); ?>
+
+                                <?php
+                                    $index++;
+                                ?>
+                            <?php endif; ?>
+                        </td>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </tbody>
@@ -93,23 +129,41 @@
                 <tr>
                     <th scope="col" class="text-center">ISIN</th>
                     <th scope="col" class="text-center">Product Name</th>
-                    <th scope="col" class="text-center">Sharpe Ratio</th>
-                    <th scope="col" class="text-center">AUM</th>
-                    <th scope="col" class="text-center">Deviden</th>
+                    <?php $__currentLoopData = $criterias; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $criteria): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <th scope="col" class="text-center"><?php echo e($criteria->criteriaName); ?></th>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     <th scope="col" class="text-center">Result Total</th>
                     <th scope="col" class="text-center">Rank</th>
                 </tr>
             </thead>
             <tbody>
-                <?php $__currentLoopData = $results; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $result): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php $__currentLoopData = $weightedData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $result): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
                     <td class="text-center"><?php echo e($result['ISIN']); ?></td>
                     <td><?php echo e($result['productName']); ?></td>
-                    <td class="text-center"><?php echo e(number_format($result['C1'], 2)); ?></td>
-                    <td class="text-center"><?php echo e(number_format($result['C2'], 2)); ?></td>
-                    <td class="text-center"><?php echo e(number_format($result['C3'], 2)); ?></td>
-                    <td class="text-center"><?php echo e(number_format($result['Result'], 2)); ?></td>
-                    <td class="text-center"><?php echo e($result['Rank']); ?></td>
+                    <?php
+                        $index = 1;
+                    ?>
+                    <?php $__currentLoopData = $criterias; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $criteria): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <?php
+                            $criteriaValue = $data[$criteria->name] ?? null;
+                        ?>
+                        <td class="text-center">
+                            <?php if($criteriaValue !== null && $criteriaValue !== 0): ?>
+                                <?php echo e(number_format($criteriaValue, 4)); ?>
+
+                            <?php else: ?>
+                                
+                                <?php echo e(number_format($result['C' . $index], 4)); ?>
+
+                                <?php
+                                    $index++;
+                                ?>
+                            <?php endif; ?>
+                        </td>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    <td class="text-center"><?php echo e(number_format($result['sumResult'], 2)); ?></td>
+                    <td class="text-center"><?php echo e($result['rank']); ?></td>
                 </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </tbody>

@@ -119,11 +119,11 @@ class DashboardCalculationController extends Controller
         $minValues = $calculationResult['minValues'];
         $criterias = $calculationResult['criterias'];
         $results = $calculationResult['results'];
-        // dd($results);
+  
         // Raw Data or Alternatif
         $rawData = Products::where('date', $date)->get();
         $rawDataWithDetails = [];
-    
+        
         foreach ($rawData as $alternative) {
             $rawDataWithDetails[$alternative->id] = [
                 'ID' => $alternative->id,
@@ -178,7 +178,6 @@ class DashboardCalculationController extends Controller
                 'productName' => $alternative->productName,
             ];
             $sum = 0;
-            
             // Dynamically generate keys based on criterion names
             foreach ($criterias as $criteria) {
                 $key = 'C' . $index;
@@ -215,11 +214,12 @@ class DashboardCalculationController extends Controller
             $entry['rank'] = $rank;
             $rank++;
         }
-        // dd($weightedData);
+        
         return view('dashboard.calculation.index', [
             'title' => 'Calculation',
             'results' => $results,
             'date' => $date,
+            'criterias' => $criterias,
             'rawData' => $rawDataWithDetails,
             'normalizedData' => $normalizedData,
             'weightedData' => $weightedData,
@@ -231,7 +231,7 @@ class DashboardCalculationController extends Controller
         $results = $this->calculateSAW($date);
         $results["maxValues"] = [];
         $results["criterias"] = [];
- 
+
         // Convert array to a collection
         $resultsCollection =  collect($results);
         return Excel::download(new ResultExport($resultsCollection), 'result.xlsx');
