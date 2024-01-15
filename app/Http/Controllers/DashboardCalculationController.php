@@ -78,8 +78,8 @@ class DashboardCalculationController extends Controller
          // Calculate the rank and store the result into an array
          $results = [];
          $rank = 1;
- 
-         foreach ($alternatives as $alternative) {
+         $rawData = Products::where('date', $date)->get();
+         foreach ($rawData as $alternative) {
              $resultItem = [
                  'ID' => $alternative->id,
                  'ISIN' => $alternative->ISIN,
@@ -100,8 +100,86 @@ class DashboardCalculationController extends Controller
              $results[] = $resultItem;
              $rank++;
          }
- 
-         return ['maxValues' => $maxValues, 'minValues' => $minValues, 'criterias' => $criterias, 'results' => $results];
+        // Normalization Data
+        $normalizedData = [];
+
+        foreach ($rawData as $alternative) {
+            $normalizedData[$alternative->id] = [
+                'ID' => $alternative->id,
+                'ISIN' => $alternative->ISIN,
+                'productName' => $alternative->productName,
+            ];
+
+            $index = 1; 
+
+            // Dynamically generate keys based on criterion names
+            foreach ($criterias as $criteria) {
+                $key = 'C' . $index;
+
+                // Check the criteria type and use minValues or maxValues accordingly
+                $valueToUse = $criteria->attribute == 'BENEFIT' ? $maxValues[$criteria->name] : $minValues[$criteria->name];
+                // dd($valueToUse);
+                // Check if the key exists in $maxValues array
+                $normalizedData[$alternative->id][$key] = isset($valueToUse) && $criteria->attribute == 'BENEFIT'
+                    ? $alternative->{$criteria->name} / $valueToUse
+                    : $valueToUse / $alternative->{$criteria->name}; // or any default value you prefer
+                $index++;
+            }
+        }
+
+        $weightedData = [];
+        $index = 1;
+        foreach ($alternatives as $alternative) {
+            $weightedData[$alternative->id] = [
+                'ID' => $alternative->id,
+                'ISIN' => $alternative->ISIN,
+                'productName' => $alternative->productName,
+            ];
+            $sum = 0;
+            // Dynamically generate keys based on criterion names
+            foreach ($criterias as $criteria) {
+                $key = 'C' . $index;
+        
+                $valueToUse = $criteria->attribute == 'BENEFIT' ? $maxValues[$criteria->name] : $minValues[$criteria->name];
+        
+                // Check if the key exists in $normalizedData array
+                if (isset($valueToUse) && $valueToUse != 0) {
+                    // Calculate the weighted value based on the criteria type
+                    $weightedData[$alternative->id][$key] = isset($normalizedData[$alternative->id][$key])
+                        ? $normalizedData[$alternative->id][$key] * $criteria->weight
+                        : 0; 
+                        // or any default value you prefer
+                } else {
+                    // Set default value or handle the case where the key does not exist
+                    $weightedData[$alternative->id][$key] = 0;
+                }
+                $sum += $weightedData[$alternative->id][$key];
+                $index++;
+            }
+            $weightedData[$alternative->id]['sumResult'] = $sum;
+
+            // Reset index for the next alternative
+            $index = 1;
+        }
+        // Sort $weightedData based on 'sum' in descending order
+        usort($weightedData, function ($a, $b) {
+            return $b['sumResult'] <=> $a['sumResult'];
+        });
+
+        // Add 'rank' to each entry
+        $rank = 1;
+        foreach ($weightedData as &$entry) {
+            $entry['rank'] = $rank;
+            $rank++;
+        }
+        // dd($weightedData);
+        return [
+            'maxValues' => $maxValues, 
+            'minValues' => $minValues, 
+            'criterias' => $criterias, 
+            'results' => $results,
+            'weightedData' => $weightedData
+        ];
      }
     
     
@@ -167,7 +245,6 @@ class DashboardCalculationController extends Controller
                 $index++;
             }
         }
-    
         // Preferences Data
         $weightedData = [];
         $index = 1;
@@ -229,11 +306,13 @@ class DashboardCalculationController extends Controller
     public function export_excel($date)
     {
         $results = $this->calculateSAW($date);
-        $results["maxValues"] = [];
-        $results["criterias"] = [];
+        $weightedData = $results['weightedData'];
 
         // Convert array to a collection
-        $resultsCollection =  collect($results);
-        return Excel::download(new ResultExport($resultsCollection), 'result.xlsx');
+        $weightedDataCollection = collect($weightedData);
+        // dd($results);
+        // Convert array to a collection
+        // $resultsCollection =  collect($results);
+        return Excel::download(new ResultExport($weightedDataCollection), 'Data Results.xlsx');
     }
 }
